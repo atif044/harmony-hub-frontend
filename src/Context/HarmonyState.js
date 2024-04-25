@@ -108,7 +108,6 @@ const allevents=async()=>{
     
   }
 }
-
 const eventDetails=async(id)=>{
   try {
     let response=api.get(`/organization/eventdetails/${id}`);
@@ -148,7 +147,6 @@ const updateEvents=async(image,data,id)=>{
       
     }
 }
-
 const checkThePending=async(id,uniId)=>{
   try {
     let response=api.post(`/organization/checkIfpending/${id}`,{uniId});
@@ -158,7 +156,6 @@ const checkThePending=async(id,uniId)=>{
     return error
   }
 }
-
 const fetchAllVolunteerForSpecificEvent=async(id)=>{
   try {
     let response=api.get(`/organization/fetchVolunteersForApproval/${id}`);
@@ -167,7 +164,6 @@ const fetchAllVolunteerForSpecificEvent=async(id)=>{
     return error;
   }
 }
-
 const acceptTheVolunteer=async(userId,id)=>{
   try {
     let response=api.post("/organization/acceptTheVolunteer",{eventId:id,id:userId});
@@ -219,7 +215,6 @@ const loginUniversity=async(body)=>{
     return error;
   }
 }
-
 const verificationOTPUniversity=async(token)=>{
   try {
     let response=api.post(`/university/verifyotpuniversity/${token}`);
@@ -237,7 +232,6 @@ const resendOTPUniversity=async()=>{
     return error;
   }
 }
-
 const getAllPendingEvents=async()=>{
   try {
     let response=api.get('/university/getAllPendingEvents');
@@ -246,7 +240,6 @@ const getAllPendingEvents=async()=>{
     return error;
   }
 }
-
 const getDetail=async(id)=>{
   try {
     let response=api.get(`/university/eventDetail/${id}`);
@@ -255,7 +248,6 @@ const getDetail=async(id)=>{
    return error 
   }
 }
-
 const approveEvent=async(id)=>{
   try {
     let response=api.post(`/university/approveEvent/${id}`);
@@ -265,7 +257,6 @@ const approveEvent=async(id)=>{
     return error
   }
 }
-
 const getAllCollab=async()=>{
   try {
     let response=api.get('/university/getAllColloabEvents');
@@ -274,7 +265,6 @@ const getAllCollab=async()=>{
     return error;
   }
 }
-
 // =======================================Volunteer
 const volunteerSignup=async(data,pp,nicb,nicf)=>{
   const {email,password,name,dob,gender,country,city,university}=data
@@ -308,7 +298,6 @@ const volunteerSignup=async(data,pp,nicb,nicf)=>{
     return error
   }
 }
-
 const loginVolunteer=async(data)=>{
   try {
     let response=api.post("/user/login",data);
@@ -336,7 +325,6 @@ const resendOTPVolunteer=async()=>{
     return error;
   }
 }
-
 const eventsForVolunteer=async()=>{
   try {
     let response=api.get('/user/getAllEvents');
@@ -353,7 +341,6 @@ const detailedEventForVolunteer=async(id)=>{
     return error;
   }
 }
-
 const joinEvent=async(id)=>{
   try {
     console.log(id)
@@ -379,9 +366,7 @@ const fetchMyApproved=async()=>{
     return error;
   }
 }
-
 // ===============================================Admin
-
 let signupAdmin=async(data)=>{
   try {
     let response=api.post("/admin/signupAdmin",data);
@@ -438,6 +423,87 @@ let disapproveVolunteerAccount=async(id)=>{
     return error;
   }
 }
+let getAllUnapprovedOrganizations=async()=>{
+  try {
+    let response=api.get("/admin/getAllUnapprovedOrgAccounts");
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+let getAllApprovedOrganizations=async()=>{
+  try {
+    let response=api.get("/admin/getAllApprovedOrgAccounts");
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+let approveOrganizationAccount=async(id)=>{
+  try {
+    let response=api.post(`/admin/approveTheOrganization/${id}`);
+    return response
+  } catch (error) {
+    return error;
+  }
+}
+let disapproveOrganizationAccount=async(id)=>{
+  try {
+    let response=api.post(`/admin/disapproveTheOrganization/${id}`);
+    return response
+  } catch (error) {
+    return error;
+  }
+}
+let organizationProfile=async(id)=>{
+  try {
+    let response=api.get(`/admin/getOrganizationProfile/${id}`);
+  return response;
+  } catch (error) {
+    return error;
+  }
+}
+let getAllUnapprovedUniversities=async()=>{
+  try {
+    let response=api.get("/admin/getAllUnapprovedUniAccounts");
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+let getAllApprovedUniversities=async()=>{
+  try {
+    let response=api.get("/admin/getAllApprovedUniAccounts");
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+let approveUniversityAccount=async(id)=>{
+  try {
+    let response=api.post(`/admin/approveTheUniversity/${id}`);
+    return response
+  } catch (error) {
+    return error;
+  }
+}
+let disapproveUniversityAccount=async(id)=>{
+  try {
+    let response=api.post(`/admin/disapproveTheUniversity/${id}`);
+    return response
+  } catch (error) {
+    return error;
+  }
+}
+let universityProfile=async(id)=>{
+  try {
+    let response=api.get(`/admin/getUniversityProfile/${id}`);
+  return response;
+  } catch (error) {
+    return error;
+  }
+}
   return (
         <context.Provider value={{
         detailedEventForVolunteer,
@@ -490,7 +556,17 @@ let disapproveVolunteerAccount=async(id)=>{
         userProfile,
         loginAdmin,
         approveVolunteerAccount,
-        disapproveVolunteerAccount
+        disapproveVolunteerAccount,
+        getAllUnapprovedOrganizations,
+        getAllApprovedOrganizations,
+        approveOrganizationAccount,
+        disapproveOrganizationAccount,
+        getAllUnapprovedUniversities,
+          getAllApprovedUniversities,
+          approveUniversityAccount,
+          disapproveUniversityAccount,
+          universityProfile,
+          organizationProfile
         }}>
       {props.children}
     </context.Provider>
