@@ -1,0 +1,118 @@
+[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "userEmail",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "certificationName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "certificationLink",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "eventId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "issuerAddress",
+				"type": "address"
+			}
+		],
+		"name": "CertificationAdded",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_certificationName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_userEmail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_certificationLink",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_eventId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_issuerAddress",
+				"type": "address"
+			}
+		],
+		"name": "addCertification",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_userEmail",
+				"type": "string"
+			}
+		],
+		"name": "getCertificationsByEmail",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "certificationName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "userEmail",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "certificationLink",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "eventId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "issuerAddress",
+						"type": "address"
+					}
+				],
+				"internalType": "struct CertificationContract.Certification[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

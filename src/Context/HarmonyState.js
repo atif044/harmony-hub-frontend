@@ -2,6 +2,12 @@ import Cookies from 'js-cookie';
 import { useState,useEffect} from "react";
 import context from './HarmonyContext.js';
 import api from '../api/api';
+import Web3 from 'web3';
+// =================Changes start=================
+import Web3Modal from 'web3modal';
+import {Contract, providers} from "ethers"
+// =============Changes End=====================
+import {marketAbi,marketAddress} from "../contract/constant.js";
 const HarmonyState = (props) => {
   const[organizationtoken,setToken]=useState(Cookies.get('harmony-hub-organization')); 
   const[universitytoken,setunivToken]=useState(Cookies.get('harmony-hub-university')); 
@@ -12,7 +18,75 @@ const HarmonyState = (props) => {
   useEffect(() => {
   }, [organizationtoken])
     
-    //====================================ORGANIZATION
+//=========================Changes START
+
+const fetchContract=(signerOrProvider)=>new Contract(marketAddress,marketAbi,signerOrProvider)
+const [currentAccount,setCurrentAccount]=useState("");
+const checkIfWalletConnected=async ()=>
+{
+    if(!window.ethereum)return alert("Please install metamask")
+    const accounts= await window.ethereum.request({method:'eth_accounts'})
+
+    if(accounts.length)
+    {
+        setCurrentAccount(accounts[0])
+    }
+    else{
+        console.log('No Account Found')
+    }
+    console.log({accounts})
+}
+// useEffect(() => {
+// checkIfWalletConnected()
+// }, [])
+
+const connectWallet =async ()=>
+{
+    if(!window.ethereum)return alert("Please install metamask")
+    const accounts= await window.ethereum.request({method:'eth_requestAccounts'})
+    setCurrentAccount(accounts[0]);
+        window.location.reload();
+}
+
+const getMyContractDetails=async()=>{
+  // const web3Modal=new Web3Modal();
+  // const connection = await web3Modal.connect();
+  // console.log(connection)
+  // const provider=new providers.Web3Provider(connection);
+  const newProvider = new providers.Web3Provider(window.ethereum);
+  await newProvider.send("eth_requestAccounts", []);
+  //  const signer =provider.getSigner();
+  const contract=fetchContract(newProvider);
+  console.log(contract)
+  try {
+    const certifications = await contract.getCertificationsByEmail("b");
+    console.log(certifications[0].certificationName)
+    console.log("done")
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const addCertificationDetails=async()=>{
+  const web3Modal=new Web3Modal();
+  const connection = await web3Modal.connect();
+  const provider=new providers.Web3Provider(window.ethereum);
+  const signer =provider.getSigner();
+  const contract=fetchContract(signer);
+  try {
+    const certifications = await contract.addCertification("sjdafdhniudsni.com","b","lsdjfdiojic",39391,"0x2179d1b9e9550e94c4e1c3945b53f917481aa69e");
+    console.log(certifications)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+//=========================Changes END
+
+
+
+    //==================================== ORGANIZATION
 const SignupOrganization=async(data)=>{
     try {
 const response =api.post(`/organization/createOrganizationAccount`,{data}); 
@@ -196,6 +270,26 @@ const rejectToAcceptTheVolunteer=async(userId,id)=>{
     return error;
   }
 }
+
+const getAttendees=async(id)=>{
+  try {
+    let response=api.get(`/organization/getEventVolunteers/${id}`);
+    return response;
+    
+  } catch (error) {
+   return error; 
+  }
+}
+const markAttendance=async(id,users,eventDate)=>{
+  try {
+    const response=api.post(`organization/markAttendance/${id}`,{users:users,eventDate:eventDate});
+    return response;
+    
+  } catch (error) {
+   return error 
+  }
+}
+
 //===========================================UNIVERSITY
 const signupUniversity=async(body)=>{
   try {
@@ -566,7 +660,13 @@ let universityProfile=async(id)=>{
           approveUniversityAccount,
           disapproveUniversityAccount,
           universityProfile,
-          organizationProfile
+          organizationProfile,
+          getAttendees,
+          getMyContractDetails,
+          connectWallet,
+          currentAccount,
+          addCertificationDetails,
+          markAttendance
         }}>
       {props.children}
     </context.Provider>

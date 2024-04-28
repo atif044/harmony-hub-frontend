@@ -19,7 +19,8 @@ const VolunteerProfilePageForApproval = () => {
     useEffect(() => {
         fetchUserProfile()
 
-    }, [])
+    }, []);
+    const months=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
   return (
     <div className="max-w-md mx-auto mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
     <div className="bg-gray-200 text-center py-4">
@@ -31,7 +32,7 @@ const VolunteerProfilePageForApproval = () => {
         <div className="grid grid-cols-2 gap-4">
             <div>
                 <p className="font-semibold">Date of Birth:</p>
-                <p>{user?.dateOfBirth}</p>
+                <p>{new Date(user?.dateOfBirth).getDate() + "-"+ months[new Date(user?.dateOfBirth).getMonth()]+ "-" + new Date(user?.dateOfBirth).getFullYear()}</p>
             </div>
             <div>
                 <p className="font-semibold">Country:</p>

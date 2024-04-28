@@ -39,6 +39,10 @@ import AllUnApprovedOrg from './Components/Admin/AllUnApprovedOrg/AllUnApprovedO
 import AllUnApprovedUni from './Components/Admin/AllUnApprovedUni/AllUnApprovedUni.jsx';
 import OrganizationProfilePage from './Components/Admin/OrganizationProfilePage/OrganizationProfilePage.jsx';
 import UniversityProfilePage from './Components/Admin/UniversityProfilePage/UniversityProfilePage.jsx';
+import GiveCertificate from './Components/Admin/GiveCertificate/GiveCertificate.jsx';
+import MyDetailedEventPage from './Components/Volunteer/My Applied Events/MyAppliedDetailed.jsx';
+import AllStartedEvents from './Components/Organization/Manage Attendance/AllStartedEvents.jsx';
+import AttendancePage from './Components/Organization/Manage Attendance/Attendancepage.jsx';
 function App() {
   return (
     <>
@@ -74,6 +78,8 @@ function App() {
     <Route exact path="/approveVolunteers/:id" element={<OrganizationProtected/>}>
     <Route exact path="/approveVolunteers/:id" element={<EventManagementPage/>}/>
     </Route>
+    <Route exact path="/markAttendance" element={<AllStartedEvents/>}/>
+    <Route exact path="markAttendance/:id" element={<AttendancePage/>}/>
     {/* ================================UNIVERSITYYYYYYYYY */}
     <Route exact path="/signupuniversity" element={<OrganizationLoginSignupProtectedRoute/>}>
     <Route exact path="/signupuniversity" element={<SignupUniversity/>}/>
@@ -117,6 +123,8 @@ function App() {
     <Route exact path="/profileOfVolunteer/:id" element={<VolunteerProfilePageForApproval/>}/>
     <Route exact path="/profileOfOrganization/:id" element={<OrganizationProfilePage/>}/>
     <Route exact path="/profileOfTheUniversity/:id" element={<UniversityProfilePage/>}/>
+    <Route exact path='/giveCertificate' element={<GiveCertificate/>}/>
+    <Route exact path="/myAppliedDetailed/:id" element={<MyDetailedEventPage/>}/>
     </Routes>
     </div>
     </HarmonyState>

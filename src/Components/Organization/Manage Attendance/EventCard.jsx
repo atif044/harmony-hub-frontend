@@ -12,7 +12,12 @@ const EventCard = ({ event }) => {
           Date: {new Date(event.eventStartDate).toLocaleDateString()}, Time: {event.eventStartTime}
         </p>
       </div>
-      <button className='bg-zinc-600 ml-2 mb-4 text-white p-1 rounded-md' onClick={()=>navigate(`/myAppliedDetailed/${event._id}`)}>More Details</button>
+      <div className='flex justify-between'>
+      <div>
+      <button className='bg-transparent text-green-500  rounded-md p-1 ml-4 mb-4 border-solid border-2' onClick={()=>navigate(`/markAttendance/${event._id}`)}> Mark Attendance </button>
+      </div>
+
+      </div>
 
     </div>
   );
