@@ -103,8 +103,8 @@ const response =api.post(`/organization/loginOrganizationAccount`,{data});
      return error;   
     }
 } 
-const createEvent=async(image,body)=>{
-  const {eventName,eventDescription,volunteersRequired,eventLocationLink,eventLocationName,eventLocationEmbeddedLink,country,city,eventDurationInDays,eventStartDate,eventEndDate,eventStartTime,eventEndTime,universityId}=body;
+const createEvent=async(image,body,eventLocationEmbededLink,eventLocationLink,eventLocationName,long,lat)=>{
+  const {eventName,eventDescription,volunteersRequired,country,city,eventDurationInDays,eventStartDate,eventEndDate,eventStartTime,eventEndTime,universityId}=body;
 
   const formData=new FormData();
      formData.append("image", image);
@@ -113,7 +113,7 @@ const createEvent=async(image,body)=>{
      formData.append("VolunteersRequired",volunteersRequired);
      formData.append("eventLocationLink",eventLocationLink);
      formData.append("eventLocationName",eventLocationName);
-     formData.append("eventLocationEmbededLink",eventLocationEmbeddedLink);
+     formData.append("eventLocationEmbededLink",eventLocationEmbededLink);
      formData.append("eventDurationInDays",eventDurationInDays);
      formData.append("eventStartDate",eventStartDate);
      formData.append("eventEndDate",eventEndDate);
@@ -122,6 +122,8 @@ const createEvent=async(image,body)=>{
      formData.append("universityId",universityId);
      formData.append("country",country)
      formData.append("city",city)
+     formData.append("longitude",long);
+     formData.append("latitude",lat);
      
      const config = {
       headers: {
@@ -289,7 +291,33 @@ const markAttendance=async(id,users,eventDate)=>{
    return error 
   }
 }
+const getAttendance=async(id)=>{
+  try {
+    const response=api.get(`organization/getAttendance/${id}`);
+    return response;
+    
+  } catch (error) {
+   return error 
+  }
+}
 
+const getAttendeesByDate=async(id,date)=>{
+  try {
+    let response=api.post(`/organization/getAttendeesByDate/${id}`,{date:date})
+    return response
+  } catch (error) {
+    return error;
+  }
+}
+const editAttendance=async(id,date,users)=>{
+  try {
+    console.log(users)
+    let response=api.post(`/organization/editAttendanceByDate/${id}`,{date:date,users:users})
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
 //===========================================UNIVERSITY
 const signupUniversity=async(body)=>{
   try {
@@ -666,7 +694,10 @@ let universityProfile=async(id)=>{
           connectWallet,
           currentAccount,
           addCertificationDetails,
-          markAttendance
+          markAttendance,
+          getAttendance,
+          getAttendeesByDate,
+          editAttendance
         }}>
       {props.children}
     </context.Provider>

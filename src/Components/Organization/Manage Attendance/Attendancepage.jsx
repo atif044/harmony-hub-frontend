@@ -106,7 +106,7 @@ const AttendancePage = () => {
       <h1 className="text-3xl font-bold mb-4">Attendance Page - {selectedDate} </h1>
 
       {/* Select Day Dropdown */}
-      <form>
+      <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label htmlFor="daySelect" className="mr-2 font-semibold">Select Day:</label>
         <select required onChange={onChange} >
@@ -165,7 +165,7 @@ const AttendancePage = () => {
       <div className="mt-4 flex justify-center">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
-          onClick={handleSubmit}
+          type="submit"
         >
           Submit
         </button>

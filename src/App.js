@@ -43,6 +43,10 @@ import GiveCertificate from './Components/Admin/GiveCertificate/GiveCertificate.
 import MyDetailedEventPage from './Components/Volunteer/My Applied Events/MyAppliedDetailed.jsx';
 import AllStartedEvents from './Components/Organization/Manage Attendance/AllStartedEvents.jsx';
 import AttendancePage from './Components/Organization/Manage Attendance/Attendancepage.jsx';
+import EditAttendanceAll from './Components/Organization/Update Attendance/EditAttendanceAll.jsx';
+import AttendancePageForUpdation from './Components/Organization/Update Attendance/AttendancePageForUpdation.jsx';
+import MyComponent from './Components/Organization/Create Event/AutoCompleteLocation.jsx';
+import MapContainer from './Components/Container.js';
 function App() {
   return (
     <>
@@ -80,6 +84,9 @@ function App() {
     </Route>
     <Route exact path="/markAttendance" element={<AllStartedEvents/>}/>
     <Route exact path="markAttendance/:id" element={<AttendancePage/>}/>
+    <Route exact path="/editAttendance/:id" element={<EditAttendanceAll/>}/>
+    <Route exact path="/editAttendance/edit/:id" element={<AttendancePageForUpdation/>}/>
+    <Route exact path="/ccc" element={<MyComponent/>}/>
     {/* ================================UNIVERSITYYYYYYYYY */}
     <Route exact path="/signupuniversity" element={<OrganizationLoginSignupProtectedRoute/>}>
     <Route exact path="/signupuniversity" element={<SignupUniversity/>}/>

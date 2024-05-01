@@ -16,6 +16,9 @@ const EventCard = ({ event }) => {
       <div>
       <button className='bg-transparent text-green-500  rounded-md p-1 ml-4 mb-4 border-solid border-2' onClick={()=>navigate(`/markAttendance/${event._id}`)}> Mark Attendance </button>
       </div>
+      <div>
+      <button className='bg-transparent text-green-500 mr-4 rounded-md p-1 mb-4 border-solid border-2' onClick={()=>navigate(`/editAttendance/${event._id}`)}> Edit Attendance </button>
+      </div>
 
       </div>
 
