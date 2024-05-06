@@ -488,6 +488,15 @@ const fetchMyApproved=async()=>{
     return error;
   }
 }
+const myAttendance=async(id)=>{
+  try {
+    let response=api.get(`/user/getMyAttendance/${id}`);
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
 // ===============================================Admin
 let signupAdmin=async(data)=>{
   try {
@@ -697,7 +706,8 @@ let universityProfile=async(id)=>{
           markAttendance,
           getAttendance,
           getAttendeesByDate,
-          editAttendance
+          editAttendance,
+          myAttendance
         }}>
       {props.children}
     </context.Provider>

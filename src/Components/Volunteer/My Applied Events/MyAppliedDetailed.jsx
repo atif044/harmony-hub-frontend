@@ -63,8 +63,19 @@ const MyDetailedEventPage = () => {
   // State to track the number of attendees
   const [attendeesApplied, setAttendeesApplied] = useState(50);
   const attendeesRequired = 100;
-  const {detailedEventForVolunteer,joinEvent}=useContext(context);
+  const {detailedEventForVolunteer,joinEvent,myAttendance}=useContext(context);
   const [event,setEvent]=useState();
+  const [myEventAttendance,setMyAttendance]=useState('');
+  let fetchAttendance=async()=>{
+    try {
+      let response= await myAttendance(id);
+      if(response.data.status==="success"){
+          setMyAttendance(response.data.body)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   let fetchDetails=async()=>{
       try {
         let response=await detailedEventForVolunteer(id);
@@ -85,7 +96,8 @@ const MyDetailedEventPage = () => {
     }
   }
   useEffect(() => {
-    fetchDetails()
+    fetchDetails();
+    fetchAttendance()
   }, []);
   // Function to handle joining the event
   const handleJoinEvent = () => {
@@ -173,6 +185,7 @@ const MyDetailedEventPage = () => {
             </svg>
             <p className="text-xl font-semibold text-gray-700">Vounteers Required: {event?.VolunteersIdApplied.length +` / ${event?.VolunteersRequired}`}</p>
           </div>
+          <p className="text-xl font-semibold text-gray-600">Attendance: {myEventAttendance} </p>
 
           {/* Event Banner */}
           <img

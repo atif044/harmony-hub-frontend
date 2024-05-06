@@ -121,6 +121,7 @@ function App() {
     <Route exact path="/myappliedevents" element={<VolunteerProtected/>}>
     <Route exact path="/myappliedevents" element={<AllAppliedEvents/>}/>
     </Route>
+    <Route exact path="/myAppliedDetailed/:id" element={<MyDetailedEventPage/>}/>
     {/* ===========================================Admin */}
     <Route exact path="/adminlogin" element={<Login/>}/>
     <Route exact path="/adminsignup" element={<Signup/>}/>
@@ -131,7 +132,6 @@ function App() {
     <Route exact path="/profileOfOrganization/:id" element={<OrganizationProfilePage/>}/>
     <Route exact path="/profileOfTheUniversity/:id" element={<UniversityProfilePage/>}/>
     <Route exact path='/giveCertificate' element={<GiveCertificate/>}/>
-    <Route exact path="/myAppliedDetailed/:id" element={<MyDetailedEventPage/>}/>
     </Routes>
     </div>
     </HarmonyState>
