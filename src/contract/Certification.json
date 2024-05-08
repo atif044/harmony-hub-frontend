@@ -22,9 +22,9 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "eventId",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -54,9 +54,9 @@
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "_eventId",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "address",
@@ -67,6 +67,57 @@
 		"name": "addCertification",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_userEmail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventId",
+				"type": "string"
+			}
+		],
+		"name": "getCertificationByEmailAndEventId",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "certificationName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "userEmail",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "certificationLink",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "eventId",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "issuerAddress",
+						"type": "address"
+					}
+				],
+				"internalType": "struct CertificationContract.Certification",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -97,9 +148,9 @@
 						"type": "string"
 					},
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "eventId",
-						"type": "uint256"
+						"type": "string"
 					},
 					{
 						"internalType": "address",

@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 import { useState,useEffect} from "react";
 import context from './HarmonyContext.js';
 import api from '../api/api';
-import Web3 from 'web3';
 // =================Changes start=================
 import Web3Modal from 'web3modal';
 import {Contract, providers} from "ethers"
@@ -48,24 +47,23 @@ const connectWallet =async ()=>
         window.location.reload();
 }
 
-const getMyContractDetails=async()=>{
-  // const web3Modal=new Web3Modal();
-  // const connection = await web3Modal.connect();
-  // console.log(connection)
-  // const provider=new providers.Web3Provider(connection);
-  const newProvider = new providers.Web3Provider(window.ethereum);
-  await newProvider.send("eth_requestAccounts", []);
-  //  const signer =provider.getSigner();
-  const contract=fetchContract(newProvider);
-  console.log(contract)
+const getMyContractDetails = async () => {
   try {
-    const certifications = await contract.getCertificationsByEmail("b");
-    console.log(certifications[0].certificationName)
-    console.log("done")
+    // Initialize provider
+    const provider = new providers.JsonRpcProvider("https://sepolia.infura.io/v3/58dc0e5e86294f12911d6e509c9985a6");
+
+    // Fetch contract details
+    const contract = fetchContract(provider);
+    
+    // Call contract function to get certifications
+    const certifications = await contract.getCertificationsByEmail("zzz@zzz.com");
+    console.log(certifications);
+    console.log("done");
   } catch (error) {
-    console.log(error)
+    console.error("Error fetching contract details:", error);
   }
-}
+};
+getMyContractDetails()
 
 const addCertificationDetails=async()=>{
   const web3Modal=new Web3Modal();
@@ -497,6 +495,15 @@ const myAttendance=async(id)=>{
     return error;
   }
 }
+const requestCertificate=async(id)=>{
+ try {
+  let response=api.post(`/user/requestCertificate/${id}`)
+  return response;
+ } catch (error) {
+  return error;
+ }
+}
+
 // ===============================================Admin
 let signupAdmin=async(data)=>{
   try {
@@ -707,7 +714,8 @@ let universityProfile=async(id)=>{
           getAttendance,
           getAttendeesByDate,
           editAttendance,
-          myAttendance
+          myAttendance,
+          requestCertificate
         }}>
       {props.children}
     </context.Provider>

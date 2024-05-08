@@ -63,7 +63,7 @@ const MyDetailedEventPage = () => {
   // State to track the number of attendees
   const [attendeesApplied, setAttendeesApplied] = useState(50);
   const attendeesRequired = 100;
-  const {detailedEventForVolunteer,joinEvent,myAttendance}=useContext(context);
+  const {detailedEventForVolunteer,joinEvent,myAttendance,requestCertificate,getMyContractDetails}=useContext(context);
   const [event,setEvent]=useState();
   const [myEventAttendance,setMyAttendance]=useState('');
   let fetchAttendance=async()=>{
@@ -98,6 +98,7 @@ const MyDetailedEventPage = () => {
   useEffect(() => {
     fetchDetails();
     fetchAttendance()
+    getMyContractDetails()
   }, []);
   // Function to handle joining the event
   const handleJoinEvent = () => {
@@ -109,6 +110,19 @@ const MyDetailedEventPage = () => {
   const createMarkup = (html) => {
     return { __html: html };
   };
+  const getMyCertificate=async()=>{
+    try {
+      await getMyContractDetails()
+      let response=await requestCertificate(id);
+      if(response.data.status==="success"){
+        return toast.success(response.data.message);
+      }
+      
+    } catch (error) {
+     toast.error(error.response.data.message) 
+    }
+  }
+
   return (
     <div className="bg-gray-100 min-h-screen p-4 font-sans">
       <div className="flex flex-wrap justify-center lg:justify-start">
@@ -186,7 +200,7 @@ const MyDetailedEventPage = () => {
             <p className="text-xl font-semibold text-gray-700">Vounteers Required: {event?.VolunteersIdApplied.length +` / ${event?.VolunteersRequired}`}</p>
           </div>
           <p className="text-xl font-semibold text-gray-600">Attendance: {myEventAttendance} </p>
-
+          <button className="bg-black text-white p-1 rounded-md hover:bg-slate-600" onClick={getMyCertificate}>Request Certificate</button>
           {/* Event Banner */}
           <img
             src={`${event?.EventImage}`}

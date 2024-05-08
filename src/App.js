@@ -46,7 +46,6 @@ import AttendancePage from './Components/Organization/Manage Attendance/Attendan
 import EditAttendanceAll from './Components/Organization/Update Attendance/EditAttendanceAll.jsx';
 import AttendancePageForUpdation from './Components/Organization/Update Attendance/AttendancePageForUpdation.jsx';
 import MyComponent from './Components/Organization/Create Event/AutoCompleteLocation.jsx';
-import MapContainer from './Components/Container.js';
 function App() {
   return (
     <>
@@ -136,8 +135,6 @@ function App() {
     </div>
     </HarmonyState>
     </Router>
-    
-    
     </>
   );
 }
