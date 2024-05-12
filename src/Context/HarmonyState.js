@@ -4,9 +4,9 @@ import context from './HarmonyContext.js';
 import api from '../api/api';
 // =================Changes start=================
 import Web3Modal from 'web3modal';
-import {Contract, providers} from "ethers"
+import {Contract, Wallet, providers,utils} from "ethers"
 // =============Changes End=====================
-import {marketAbi,marketAddress} from "../contract/constant.js";
+import {marketAbi,marketAddress, pvk} from "../contract/constant.js";
 const HarmonyState = (props) => {
   const[organizationtoken,setToken]=useState(Cookies.get('harmony-hub-organization')); 
   const[universitytoken,setunivToken]=useState(Cookies.get('harmony-hub-university')); 
@@ -20,64 +20,80 @@ const HarmonyState = (props) => {
 //=========================Changes START
 
 const fetchContract=(signerOrProvider)=>new Contract(marketAddress,marketAbi,signerOrProvider)
-const [currentAccount,setCurrentAccount]=useState("");
-const checkIfWalletConnected=async ()=>
+// const [currentAccount,setCurrentAccount]=useState("");
+const checkIfWalletConnected=async (set)=>
 {
     if(!window.ethereum)return alert("Please install metamask")
     const accounts= await window.ethereum.request({method:'eth_accounts'})
 
     if(accounts.length)
     {
-        setCurrentAccount(accounts[0])
+        set(accounts[0])
     }
     else{
         console.log('No Account Found')
     }
-    console.log({accounts})
 }
 // useEffect(() => {
 // checkIfWalletConnected()
 // }, [])
 
-const connectWallet =async ()=>
+const connectWallet =async (set)=>
 {
     if(!window.ethereum)return alert("Please install metamask")
     const accounts= await window.ethereum.request({method:'eth_requestAccounts'})
-    setCurrentAccount(accounts[0]);
+    set(accounts[0]);
         window.location.reload();
 }
 
-const getMyContractDetails = async () => {
+const getMyContractDetails = async (email) => {
   try {
     // Initialize provider
     const provider = new providers.JsonRpcProvider("https://sepolia.infura.io/v3/58dc0e5e86294f12911d6e509c9985a6");
 
     // Fetch contract details
     const contract = fetchContract(provider);
-    
     // Call contract function to get certifications
-    const certifications = await contract.getCertificationsByEmail("zzz@zzz.com");
-    console.log(certifications);
-    console.log("done");
+    const certifications = await contract.getCertificationsByEmail(email);
+    return certifications;
   } catch (error) {
-    console.error("Error fetching contract details:", error);
+    return error;
   }
 };
-getMyContractDetails()
+const checkCertificteExistOrNot = async (email,eid) => {
+  try {
+    // Initialize provider
+    const provider = new providers.JsonRpcProvider("https://sepolia.infura.io/v3/58dc0e5e86294f12911d6e509c9985a6");
+    // Fetch contract details
+    const contract = fetchContract(provider);
+    // Call contract function to get certifications
+    const certifications = await contract.getCertificationsByEventAndEmail(eid,email);
+    return certifications
+  } catch (error) {
+    return error
+  }
+};
 
-const addCertificationDetails=async()=>{
+
+const addCertificationDetails=async(acc,email,name,link,eventId,walletAdd)=>{
   const web3Modal=new Web3Modal();
   const connection = await web3Modal.connect();
-  const provider=new providers.Web3Provider(window.ethereum);
+  const provider=new providers.Web3Provider(connection);
   const signer =provider.getSigner();
+  if (!utils.isAddress(acc)) {
+    console.error("Invalid Ethereum account address");
+    return;
+  }
   const contract=fetchContract(signer);
   try {
-    const certifications = await contract.addCertification("sjdafdhniudsni.com","b","lsdjfdiojic",39391,"0x2179d1b9e9550e94c4e1c3945b53f917481aa69e");
-    console.log(certifications)
+    const certifications = await contract.addCertification("email","name","hhmjm",1,walletAdd);
+    await certifications.wait()
+    return certifications
   } catch (error) {
     console.log(error)
   }
 }
+
 
 
 //=========================Changes END
@@ -385,6 +401,15 @@ const getAllCollab=async()=>{
     return error;
   }
 }
+const getAllStudents=async()=>{
+  try {
+    let response=api.get('/university/getAllStudents');
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
 // =======================================Volunteer
 const volunteerSignup=async(data,pp,nicb,nicf)=>{
   const {email,password,name,dob,gender,country,city,university}=data
@@ -401,11 +426,6 @@ const volunteerSignup=async(data,pp,nicb,nicf)=>{
     formData.append("photos",pp);
     formData.append("photos",nicf);
     formData.append("photos",nicb);
-
-    
-    
-
-
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -503,7 +523,33 @@ const requestCertificate=async(id)=>{
   return error;
  }
 }
+const checkIfAlreadyRequested=async(id)=>{
+  try {
+    let response=api.get(`/user/checkIfRequested/${id}`)
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
 
+const myProfile=async()=>{
+  try {
+    let response=api.get('/user/myProfile')
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+const addAboutMe=async(data)=>{
+  try {
+    let response=api.post('/user/addBio',{about:data})
+    return response
+    
+  } catch (error) {
+    return error
+  }
+}
 // ===============================================Admin
 let signupAdmin=async(data)=>{
   try {
@@ -642,6 +688,23 @@ let universityProfile=async(id)=>{
     return error;
   }
 }
+let getAllRequests=async()=>{
+  try {
+    let response=api.get(`/admin/getAllRequests`);
+  return response;
+  } catch (error) {
+    return error;
+  }
+}
+let changeRequestType=async(id,eventId)=>{
+  try {
+    let response=api.post(`/admin/changeRequestToCompleted/${id}/${eventId}`);
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
   return (
         <context.Provider value={{
         detailedEventForVolunteer,
@@ -708,14 +771,21 @@ let universityProfile=async(id)=>{
           getAttendees,
           getMyContractDetails,
           connectWallet,
-          currentAccount,
           addCertificationDetails,
           markAttendance,
           getAttendance,
           getAttendeesByDate,
           editAttendance,
           myAttendance,
-          requestCertificate
+          requestCertificate,
+          checkIfAlreadyRequested,
+          checkIfWalletConnected,
+          getAllRequests,
+          checkCertificteExistOrNot,
+          changeRequestType,
+          myProfile,
+          addAboutMe,
+          getAllStudents
         }}>
       {props.children}
     </context.Provider>

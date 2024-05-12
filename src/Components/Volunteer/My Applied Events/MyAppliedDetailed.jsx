@@ -2,7 +2,7 @@ import React, { useContext, useState,useEffect } from "react";
 import context from "../../../Context/HarmonyContext";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-
+import Modal from "./Modal";
 const OtherEvent = ({ eventName, date }) => {
   return (
     <div className="flex items-center mb-4">
@@ -63,14 +63,29 @@ const MyDetailedEventPage = () => {
   // State to track the number of attendees
   const [attendeesApplied, setAttendeesApplied] = useState(50);
   const attendeesRequired = 100;
-  const {detailedEventForVolunteer,joinEvent,myAttendance,requestCertificate,getMyContractDetails}=useContext(context);
+  const {detailedEventForVolunteer,joinEvent,myAttendance,requestCertificate,getMyContractDetails,checkIfAlreadyRequested,checkCertificteExistOrNot}=useContext(context);
   const [event,setEvent]=useState();
+  const [requested,setRequested]=useState(false);
   const [myEventAttendance,setMyAttendance]=useState('');
+  const [certification,setCertification]=useState('');
+  const [email,setEmail]=useState('')
+  let checkRequest=async()=>{
+    try {
+      let response=await checkIfAlreadyRequested(id);
+      if(response.data.status==="success"){
+        setRequested(response.data.body)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   let fetchAttendance=async()=>{
     try {
       let response= await myAttendance(id);
       if(response.data.status==="success"){
-          setMyAttendance(response.data.body)
+          setMyAttendance(response.data.body);
+          setEmail(response.data.email);
+          
       }
     } catch (error) {
       console.log(error)
@@ -99,7 +114,27 @@ const MyDetailedEventPage = () => {
     fetchDetails();
     fetchAttendance()
     getMyContractDetails()
+    checkRequest()
   }, []);
+
+  const checkForCertificate=async()=>{
+    try {
+      
+        let res=await checkCertificteExistOrNot(email,id);
+        setCertification(res)
+          
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    
+    if(email!==""){
+      checkForCertificate()
+    }
+  }, [email])
+
   // Function to handle joining the event
   const handleJoinEvent = () => {
     // Increment the number of attendees when someone joins the event
@@ -122,6 +157,15 @@ const MyDetailedEventPage = () => {
      toast.error(error.response.data.message) 
     }
   }
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 font-sans">
@@ -200,8 +244,19 @@ const MyDetailedEventPage = () => {
             <p className="text-xl font-semibold text-gray-700">Vounteers Required: {event?.VolunteersIdApplied.length +` / ${event?.VolunteersRequired}`}</p>
           </div>
           <p className="text-xl font-semibold text-gray-600">Attendance: {myEventAttendance} </p>
-          <button className="bg-black text-white p-1 rounded-md hover:bg-slate-600" onClick={getMyCertificate}>Request Certificate</button>
-          {/* Event Banner */}
+{      
+  (certification!==""&&certification.length!==0)?
+  (
+    <div>
+    <button onClick={openModal} className="p-1 bg-green-500 rounded-md text-white">View</button>
+{    modalOpen && <Modal imageUrl={certification[0][2]} onClose={closeModal} />
+}
+    </div>  
+  )
+  
+  :
+   requested? "Already Requested":   <button className="bg-black text-white p-1 rounded-md hover:bg-slate-600" onClick={getMyCertificate}>Request Certificate</button>
+}          {/* Event Banner */}
           <img
             src={`${event?.EventImage}`}
             alt="Event Banner"

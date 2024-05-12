@@ -229,7 +229,7 @@ const CreateEvent = ({darkMode}) => {
         </div>
         <div className="mb-4">
           <label htmlFor="eventDurationInDays" className="block mb-1 font-medium">
-            Event Duration (in days) <span className="text-red-500">*</span>
+            CSP Hours (total for the event) <span className="text-red-500">*</span>
           </label>
           <input
             type="number"

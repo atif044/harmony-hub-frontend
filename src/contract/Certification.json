@@ -1,5 +1,38 @@
 [
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_certificationName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_userEmail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_certificationLink",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventId",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_issuerAddress",
+				"type": "address"
+			}
+		],
+		"name": "addCertification",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -37,37 +70,23 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_certificationName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_userEmail",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_certificationLink",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_eventId",
-				"type": "string"
-			},
-			{
+				"indexed": true,
 				"internalType": "address",
-				"name": "_issuerAddress",
+				"name": "sender",
 				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
 			}
 		],
-		"name": "addCertification",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"name": "TransactionCompleted",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -75,14 +94,9 @@
 				"internalType": "string",
 				"name": "_userEmail",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_eventId",
-				"type": "string"
 			}
 		],
-		"name": "getCertificationByEmailAndEventId",
+		"name": "getCertificationsByEmail",
 		"outputs": [
 			{
 				"components": [
@@ -112,9 +126,9 @@
 						"type": "address"
 					}
 				],
-				"internalType": "struct CertificationContract.Certification",
+				"internalType": "struct CertificationContract.Certification[]",
 				"name": "",
-				"type": "tuple"
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -124,11 +138,16 @@
 		"inputs": [
 			{
 				"internalType": "string",
+				"name": "_eventId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
 				"name": "_userEmail",
 				"type": "string"
 			}
 		],
-		"name": "getCertificationsByEmail",
+		"name": "getCertificationsByEventAndEmail",
 		"outputs": [
 			{
 				"components": [

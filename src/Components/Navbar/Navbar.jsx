@@ -25,6 +25,7 @@ const Navbar = () => {
   ];
 
   const navbarAdmin=[
+    {name:"Certificates",path:"issueCertificates"},
     {name:"UnApproved Volunteers",path:"unapprovedVolunteers"},
     {name:"UnApproved Org.",path:"unapprovedOrganization"},
     {name:"UnApproved Uni.",path:"unapprovedUniversity"},

@@ -182,43 +182,10 @@ const UpdateEvent = ({darkMode}) => {
             <p className="text-red-500 mt-1">{errors.eventLocationLink}</p>
           )}
         </div>
-        <div className="mb-4">
-          <label htmlFor="eventLocationName" className="block mb-1 font-medium">
-            Event Location Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="eventLocationName"
-            name="eventLocationName"
-            value={formData.eventLocationName}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-          {errors.eventLocationName && (
-            <p className="text-red-500 mt-1">{errors.eventLocationName}</p>
-          )}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="eventLocationEmbeddedLink" className="block mb-1 font-medium">
-            Event Location Embedded Link <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="eventLocationEmbeddedLink"
-            name="eventLocationEmbeddedLink"
-            value={formData.eventLocationEmbeddedLink}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-          {errors.eventLocationEmbeddedLink && (
-            <p className="text-red-500 mt-1">{errors.eventLocationEmbeddedLink}</p>
-          )}
-        </div>
+  
         <div className="mb-4">
           <label htmlFor="eventDurationInDays" className="block mb-1 font-medium">
-            Event Duration (in days) <span className="text-red-500">*</span>
+            CSp Hours ( total ) <span className="text-red-500">*</span>
           </label>
           <input
             type="number"

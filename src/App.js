@@ -46,6 +46,9 @@ import AttendancePage from './Components/Organization/Manage Attendance/Attendan
 import EditAttendanceAll from './Components/Organization/Update Attendance/EditAttendanceAll.jsx';
 import AttendancePageForUpdation from './Components/Organization/Update Attendance/AttendancePageForUpdation.jsx';
 import MyComponent from './Components/Organization/Create Event/AutoCompleteLocation.jsx';
+import CertificateOfParticipation from './Components/Admin/IssueCertificates/Cetrtificate.jsx';
+import ProfilePage from './Components/Volunteer/My Profile/profilePage.jsx';
+import AllStudentPage from './Components/University/Students/AllStudentPage.jsx';
 function App() {
   return (
     <>
@@ -105,6 +108,7 @@ function App() {
     <Route exact path='/collabEvents' element={<UniversityProtected/>}>
     <Route exact path='/collabEvents' element={<CollaboratedEvents/>}/>
     </Route>
+    <Route exact path='/approvestudents' element={<AllStudentPage/>}/>
     {/* =======================================VOLUNTEER */}
     <Route exact path='/volunteersignup' element={<Register/>} />
     <Route exact path='volunteerlogin' element={<LoginVolunteer/>}/>
@@ -121,6 +125,7 @@ function App() {
     <Route exact path="/myappliedevents" element={<AllAppliedEvents/>}/>
     </Route>
     <Route exact path="/myAppliedDetailed/:id" element={<MyDetailedEventPage/>}/>
+    <Route exact path='/myprofile' element={<ProfilePage/>}/>
     {/* ===========================================Admin */}
     <Route exact path="/adminlogin" element={<Login/>}/>
     <Route exact path="/adminsignup" element={<Signup/>}/>
@@ -131,10 +136,12 @@ function App() {
     <Route exact path="/profileOfOrganization/:id" element={<OrganizationProfilePage/>}/>
     <Route exact path="/profileOfTheUniversity/:id" element={<UniversityProfilePage/>}/>
     <Route exact path='/giveCertificate' element={<GiveCertificate/>}/>
+    <Route exact path="/issueCertificates" element={<CertificateOfParticipation/>}/>
     </Routes>
     </div>
     </HarmonyState>
     </Router>
+    
     </>
   );
 }
