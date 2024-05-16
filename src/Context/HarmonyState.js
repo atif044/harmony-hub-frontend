@@ -198,6 +198,24 @@ const allevents=async()=>{
     
   }
 }
+const alleventsstarted=async()=>{
+  try {
+    let response=api.get('/organization/alleventsStarted');
+    return response;
+  } catch (error) {
+    return error
+    
+  }
+}
+const alleventsended=async()=>{
+  try {
+    let response=api.get('/organization/alleventsEnded');
+    return response;
+  } catch (error) {
+    return error
+    
+  }
+}
 const eventDetails=async(id)=>{
   try {
     let response=api.get(`/organization/eventdetails/${id}`);
@@ -408,6 +426,50 @@ const getAllStudents=async()=>{
     
   } catch (error) {
     return error
+  }
+}
+let userProfileForUniversity=async(id)=>{
+  try {
+    let response=api.get(`/university/getUserProfile/${id}`);
+  return response;
+  } catch (error) {
+    return error;
+  }
+}
+let approveTheStudent=async(id)=>{
+  try {
+    let response=api.post(`/university/approveTheStudent/${id}`);
+      return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+let rejectTheStudent=async(id)=>{
+  try {
+    let response=api.post(`/university/rejectTheStudent/${id}`);
+      return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+let approveToRejectTheStudent=async(id)=>{
+  try {
+    let response=api.post(`/university/approveToRejectTheStudent/${id}`);
+      return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+let rejectToApproveTheStudent=async(id)=>{
+  try {
+    let response=api.post(`/university/rejectToApproveTheStudent/${id}`);
+      return response;
+    
+  } catch (error) {
+    return error;
   }
 }
 // =======================================Volunteer
@@ -785,7 +847,14 @@ let changeRequestType=async(id,eventId)=>{
           changeRequestType,
           myProfile,
           addAboutMe,
-          getAllStudents
+          getAllStudents,
+          approveTheStudent,
+          rejectTheStudent,
+          userProfileForUniversity,
+          approveToRejectTheStudent,
+          rejectToApproveTheStudent,
+          alleventsstarted,
+          alleventsended
         }}>
       {props.children}
     </context.Provider>

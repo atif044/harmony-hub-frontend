@@ -49,6 +49,7 @@ import MyComponent from './Components/Organization/Create Event/AutoCompleteLoca
 import CertificateOfParticipation from './Components/Admin/IssueCertificates/Cetrtificate.jsx';
 import ProfilePage from './Components/Volunteer/My Profile/profilePage.jsx';
 import AllStudentPage from './Components/University/Students/AllStudentPage.jsx';
+import StudentProfilePageForApproval from './Components/University/Students/StudentProfilePageForApproval.jsx';
 function App() {
   return (
     <>
@@ -109,6 +110,7 @@ function App() {
     <Route exact path='/collabEvents' element={<CollaboratedEvents/>}/>
     </Route>
     <Route exact path='/approvestudents' element={<AllStudentPage/>}/>
+    <Route exact path="/profileOfStudent/:id" element={<StudentProfilePageForApproval/>}/>
     {/* =======================================VOLUNTEER */}
     <Route exact path='/volunteersignup' element={<Register/>} />
     <Route exact path='volunteerlogin' element={<LoginVolunteer/>}/>

@@ -214,6 +214,7 @@ const ProfilePage = () => {
       console.log(error)
     }
   }
+
   const [fetch,setfetch]=useState(false)
   useEffect(() => {
       fetchMyProifleDetails()
@@ -233,6 +234,7 @@ const ProfilePage = () => {
       return toast.error(error?.response?.data.message)
     }
   }
+
   return (
     
     <div className="container mx-auto py-8">
@@ -296,7 +298,8 @@ const ProfilePage = () => {
                 enableEditBio==false?
                 <h2 className='mb-4 whitespace-pre-line'>{details?.about}</h2>:
                 <div className='mb-4'>
-                  <textarea className='h-32 w-full outline-4 border-2' value={bio} onChange={(e)=>setbio(e.target.value)} />
+                  <textarea className='h-32 w-full outline-4 border-2'  value={bio} onChange={(e)=>setbio(e.target.value)} 
+                     />
                   <button className='bg-green-500 p-1 rounded-md mr-3' onClick={addDetails}>Add Bio</button>
                   <button className='text-red-600' onClick={()=>{
                     setEnableEditBio(false)
