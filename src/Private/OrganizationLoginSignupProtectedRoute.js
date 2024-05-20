@@ -2,8 +2,9 @@ import React,{useContext} from 'react'
 import { Navigate,Outlet } from 'react-router-dom'
 import context from '../Context/HarmonyContext'
 const OrganizationLoginSignupProtectedRoute = () => {
-    const {organizationtoken,isVerified,universitytoken}=useContext(context);
+    const {organizationtoken,isVerified,universitytoken,volunteertoken}=useContext(context);
     console.log(isVerified)
+    console.log(organizationtoken,isVerified,universitytoken,volunteertoken)
   return (
     organizationtoken?
     (
@@ -15,7 +16,13 @@ const OrganizationLoginSignupProtectedRoute = () => {
         isVerified=="false"?
         <Navigate to='/verifyotpuniv'/>
         :
-        <Navigate to='/univhome'/>
+        <Navigate to='/'/>
+        ):
+        volunteertoken?(
+          isVerified=="false"?
+          <Navigate to='/verifyOtpVolunteer'/>
+          :
+          <Navigate to='/'/>
         ):
         <Outlet/>
     

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import context from '../../../Context/HarmonyContext';
 import toast from 'react-hot-toast';
 
@@ -146,12 +146,12 @@ const EventManagementPage = () => {
                     <td className="border px-4 py-2">{volunteer.email}</td>
                    
                     <td className="border px-4 py-2">
-                      <a href={`/profile/${volunteer.id}`} target="_blank" rel="noopener noreferrer">
+                      <Link to={`/userPublicProfile/${volunteer._id}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.416 21.416a2 2 0 01-2.827 0l-7.89-7.89a2 2 0 010-2.828l.707-.707a2 2 0 012.829 0l7.889 7.89a2 2 0 010 2.827l-.707.707z" />
                         </svg>
-                      </a>
+                      </Link>
                     </td>
                     <td className="border px-4 py-2 flex items-center">
                       <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-2 rounded" onClick={() => approveIt(volunteer._id,id)}>Approve</button>
@@ -185,12 +185,12 @@ const EventManagementPage = () => {
                     <td className="border px-4 py-2">{volunteer.fullName}</td>
                     <td className="border px-4 py-2">{volunteer.email}</td>
                     <td className="border px-4 py-2">
-                      <a href={`/profile/${volunteer.id}`} target="_blank" rel="noopener noreferrer">
+                      <Link to={`/userPublicProfile/${volunteer._id}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.416 21.416a2 2 0 01-2.827 0l-7.89-7.89a2 2 0 010-2.828l.707-.707a2 2 0 012.829 0l7.889 7.89a2 2 0 010 2.827l-.707.707z" />
                         </svg>
-                      </a>
+                      </Link>
                     </td>
                     <td className="border px-4 py-2 flex items-center">
                       <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded" onClick={() => acceptTorejectIt(volunteer._id, id)}>Decline</button>
@@ -225,12 +225,12 @@ const EventManagementPage = () => {
                     <td className="border px-4 py-2">{volunteer.fullName}</td>
                     <td className="border px-4 py-2">{volunteer.email}</td>
                     <td className="border px-4 py-2">
-                      <a href={`/profile/${volunteer.id}`} target="_blank" rel="noopener noreferrer">
+                      <Link to={`/userPublicProfile/${volunteer._id}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.416 21.416a2 2 0 01-2.827 0l-7.89-7.89a2 2 0 010-2.828l.707-.707a2 2 0 012.829 0l7.889 7.89a2 2 0 010 2.827l-.707.707z" />
                         </svg>
-                      </a>
+                      </Link>
                     </td>
                     <td className="border px-4 py-2 flex items-center">
                       <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-2 rounded" onClick={() => rejectToAcceptIt(volunteer._id, id)}>Approve</button>

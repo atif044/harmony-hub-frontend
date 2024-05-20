@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState,useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import context from "../../../Context/HarmonyContext";
 import toast from "react-hot-toast";
 const Step1 = ({ onNext, email, password,setProfilePhoto,profilePhoto, confirmPassword, setEmail, setPassword, setConfirmPassword }) => {
@@ -29,7 +29,7 @@ const Step1 = ({ onNext, email, password,setProfilePhoto,profilePhoto, confirmPa
                 <input type="file" accept="image/*" required onChange={(e)=>setProfilePhoto(e.target.files[0])}/>
             </div>
             <hr className="my-8" />
-            <p className="mb-4">Already a member? <a href="/Signup" className="text-blue-500">LOGIN!</a></p>
+            <p className="mb-4">Already a member? <Link to={'/volunteerlogin'} className="text-blue-500">LOGIN!</Link></p>
             <button className="w-full bg-blue-500 hover:bg-blue-600 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Next</button>
         </form>
     );
@@ -83,7 +83,7 @@ const Step2 = ({ onNext, name, dob, nicFront,nicBack, contact, gender, setName, 
     );
 };
 
-const Step3 = ({ onSubmit,universities,university,setUniversity, country, city, countries,cities,countryChange,cityChange, setCity }) => {
+const Step3 = ({enrollmentNo,setEnrollmentNo,setStudentCardPic, onSubmit,universities,university,setUniversity, country, city, countries,cities,countryChange,cityChange, setCity }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit({ country, city });
@@ -145,7 +145,9 @@ const Step3 = ({ onSubmit,universities,university,setUniversity, country, city, 
                 university!=="" &&
                 <div className="mb-4">
                 <label className="block mb-2" htmlFor="gender">Student Card Pic</label>
-                <input type="file"/>
+                <input onChange={(e)=>setStudentCardPic(e.target.files[0])} type="file" required={university!=""?true:false} />
+                <label className="block mb-2" htmlFor="enrollment">Enrollment</label>
+                <input  className="block w-full p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500" type="text" id="enrollment" value={enrollmentNo} onChange={(e)=>setEnrollmentNo(e.target.value)} minLength={4} required={university!=""?true:false}  />
                 </div>
             }
             <button className="w-full bg-blue-500 hover:bg-blue-600 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Submit</button>
@@ -168,6 +170,8 @@ const Register = () => {
     const [gender, setGender] = useState("male");
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
+    const [enrollmentNo,setEnrollmentNo]=useState('');
+    const [studentCardPic,setStudentCardPic]=useState(null)
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedCountryISO, setSelectedCountryISO] = useState("gb");
@@ -224,7 +228,7 @@ const Register = () => {
 
     const handleRegister = async() => {
 
-      let response=  await volunteerSignup({email,password,name,dob,gender,country,city,university},profilePhoto,nicBack,nicFront);
+      let response=  await volunteerSignup({email,password,name,dob,gender,country,city,university,enrollmentNo},profilePhoto,nicBack,nicFront,studentCardPic);
         if(response.data.status==="success"){
           toast.success(response.data.message);
           setVolunteerToken(response.data.body);
@@ -241,7 +245,7 @@ const Register = () => {
                 <center><h2 className="text-2xl mb-4">REGISTER NOW!</h2></center>
                 {step === 1 && <Step1 onNext={handleNext} profilePhoto={profilePhoto} setProfilePhoto={setProfilePhoto} email={email} password={password} confirmPassword={confirmPassword} setEmail={setEmail} setPassword={setPassword} setConfirmPassword={setConfirmPassword} />}
                 {step === 2 && <Step2 onNext={handleNext} name={name} dob={dob} nicFront={nicFront} nicBack={nicBack}contact={contact} gender={gender} setName={setName} setDob={setDob} setNicFront={setNicFront}  setNicBack={setNicBack} setContact={setContact} setGender={setGender} />}
-                {step === 3 && <Step3 onSubmit={handleRegister} universities={universities} university={university} setUniversity={setUniversity} countries={countries} cities={cities} countryChange={handleCountryChange} cityChange={handleCityChange} country={country} city={city} setCountry={setCountry} setCity={setCity} />}
+                {step === 3 && <Step3 onSubmit={handleRegister} universities={universities} university={university} setUniversity={setUniversity} countries={countries} cities={cities} countryChange={handleCountryChange} cityChange={handleCityChange} country={country} city={city} setCountry={setCountry} setCity={setCity} enrollmentNo={enrollmentNo} setEnrollmentNo={setEnrollmentNo} setStudentCardPic={setStudentCardPic} />}
                 <div className="absolute bottom-4 right-4">{step}/3</div>
             </div>
         </div>

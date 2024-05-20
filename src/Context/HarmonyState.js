@@ -224,8 +224,8 @@ const eventDetails=async(id)=>{
     return error;  
   }
 }
-const updateEvents=async(image,data,id)=>{
-  const {eventName,eventDescription,volunteersRequired,eventLocationLink,eventLocationName,eventLocationEmbeddedLink,eventDurationInDays,eventStartDate,eventEndDate,eventStartTime,eventEndTime,universityId}=data;
+const updateEvents=async(image,data,id,eventLocationName,eventLocationLink,eventLocationEmbededLink,lat,long)=>{
+  const {eventName,eventDescription,volunteersRequired,eventDurationInDays,eventStartDate,eventEndDate,eventStartTime,eventEndTime,universityId}=data;
   const formData=new FormData();
      formData.append("image", image);
      formData.append("EventName",eventName);
@@ -233,13 +233,16 @@ const updateEvents=async(image,data,id)=>{
      formData.append("VolunteersRequired",volunteersRequired);
      formData.append("eventLocationLink",eventLocationLink);
      formData.append("eventLocationName",eventLocationName);
-     formData.append("eventLocationEmbededLink",eventLocationEmbeddedLink);
+     formData.append("eventLocationEmbededLink",eventLocationEmbededLink);
      formData.append("eventDurationInDays",eventDurationInDays);
      formData.append("eventStartDate",eventStartDate);
      formData.append("eventEndDate",eventEndDate);
      formData.append("eventStartTime",eventStartTime);
      formData.append("eventEndTime",eventEndTime);
-     formData.append("universityId",universityId)
+     formData.append("universityId",universityId);
+     formData.append("longitude",long);
+     formData.append("latitude",lat);
+     console.log(formData)
      
      const config = {
       headers: {
@@ -348,6 +351,94 @@ const editAttendance=async(id,date,users)=>{
     return response;
   } catch (error) {
     return error;
+  }
+}
+const checkTheStatusOfEvent=async(id)=>{
+  try {
+    let response=api.get(`/organization/checkTheStatusOfEvent/${id}`);
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const changeEventStatus=async(id)=>{
+  try {
+    let response=api.get(`/organization/changeTheStatusOfEvent/${id}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+const endEvent=async(id)=>{
+  try {
+    const response=api.post(`/organization/endEvent/${id}`)
+    return response
+    
+  } catch (error) {
+    return error;
+  }
+}
+const getAllVolunteer=async(id)=>{
+  try {
+    let response=api.get(`/organization/getAllVolunteer/${id}`)
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+const reviewTheVolunteer=async(eventId,userId,rating)=>{
+  try {
+    let response=api.post(`/organization/reviewVolunteer/${eventId}`,{
+      userId:userId,
+      rating:rating
+    })
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const getMyOrgProfile=async()=>{
+  try {
+    let response=api.get(`/organization/getMyProfile`)
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
+const getMyOrgPublicProfile=async(id)=>{
+  try {
+    let response=api.get(`/organization/getMyPublicProfile/${id}`)
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
+const addBioOrg=async(about)=>{
+  try {
+    let response=api.post('/organization/addBio',{about:about})
+    return response
+  } catch (error) {
+    return error;
+  }
+    
+}
+const addProfilePic=async(img)=>{
+  const form= new FormData();
+  form.append("image",img);
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  try {
+    let response=api.post('/organization/addPP',form,config);
+    return response;
+  } catch (error) {
+    return error
   }
 }
 //===========================================UNIVERSITY
@@ -472,9 +563,61 @@ let rejectToApproveTheStudent=async(id)=>{
     return error;
   }
 }
+
+const getMyUniProfile=async()=>{
+  try {
+    let response=api.get(`/university/getMyProfile`)
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
+const getMyUniPublicProfile=async(id)=>{
+  try {
+    let response=api.get(`/university/getMyPublicProfile/${id}`)
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
+const addBioUni=async(about)=>{
+  try {
+    let response=api.post('/university/addBio',{about:about})
+    return response
+  } catch (error) {
+    return error;
+  }
+    
+}
+const addProfilePicUni=async(img)=>{
+  const form= new FormData();
+  form.append("image",img);
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  try {
+    let response=api.post('/university/uploadPP',form,config);
+    return response;
+  } catch (error) {
+    return error
+  }
+}
+const getAllStudentsProfiles=async()=>{
+  try {
+    let response=api.get('/university/allStudents');
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
 // =======================================Volunteer
-const volunteerSignup=async(data,pp,nicb,nicf)=>{
-  const {email,password,name,dob,gender,country,city,university}=data
+const volunteerSignup=async(data,pp,nicb,nicf,stback)=>{
+  const {email,password,name,dob,gender,country,city,university,enrollmentNo}=data
   try {
     const formData=new FormData();
     formData.append("email",email);
@@ -488,6 +631,8 @@ const volunteerSignup=async(data,pp,nicb,nicf)=>{
     formData.append("photos",pp);
     formData.append("photos",nicf);
     formData.append("photos",nicb);
+    formData.append("photos",stback);
+    formData.append("enrollmentNo",enrollmentNo)
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -610,6 +755,36 @@ const addAboutMe=async(data)=>{
     
   } catch (error) {
     return error
+  }
+}
+
+const userPublicProfile=async(id)=>{
+  try {
+    let response=api.get(`/user/userProfile/${id}`);
+    return response;
+    
+  } catch (error) {
+    
+  }
+}
+const checkIfEventReviewed=async(id)=>{
+  try {
+    let response=api.get(`/usert/checkIfAlreadyReviewed/${id}`);
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const reviewTheEvent=async(eventId,rating)=>{
+  try {
+    let response=api.post(`/user/reviewEvent/${eventId}`,{
+      rating:rating
+    })
+    return response;
+    
+  } catch (error) {
+    return error;
   }
 }
 // ===============================================Admin
@@ -767,6 +942,52 @@ let changeRequestType=async(id,eventId)=>{
     return error
   }
 }
+let eventsByLocation=async(location)=>{
+  try {
+    let response=api.post('/user/eventsByLocation',{location:location})
+    return response;
+  } catch (error) {
+    return error
+  }
+}
+
+//  ======================FORGOT PASSWORD
+const sendResetLink=async({email,type})=>{
+  try {
+    let response=api.post('/user/send-reset-request',{email:email,type:type});
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const checkValidityOfToken=async(token)=>{
+  try {
+    let response=api.get(`/user/verifyToken/${token}`);
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const updatePassword=async(pwd,token)=>{
+  try {
+    let response=api.post('/user/updatePassword',{password:pwd,token:token})
+    return response;
+  } catch (error) {
+    return error
+  }
+}
+
+const countForVolunteersAndOrg=async()=>{
+  try {
+    let response=api.get('/user/getVolunteerCountAndOrganizationCountAndEventCount');
+    return response
+    
+  } catch (error) {
+    return error;
+  }
+}
   return (
         <context.Provider value={{
         detailedEventForVolunteer,
@@ -854,7 +1075,29 @@ let changeRequestType=async(id,eventId)=>{
           approveToRejectTheStudent,
           rejectToApproveTheStudent,
           alleventsstarted,
-          alleventsended
+          alleventsended,
+          checkTheStatusOfEvent,
+          userPublicProfile,
+          eventsByLocation,
+          changeEventStatus,
+          endEvent,
+          getAllVolunteer,
+          reviewTheVolunteer,
+          checkIfEventReviewed,
+          reviewTheEvent,
+          getMyOrgProfile,
+          getMyOrgPublicProfile,
+          addBioOrg,
+          addProfilePic,
+          getMyUniProfile,
+          getMyUniPublicProfile,
+          addBioUni,
+          addProfilePicUni,
+          getAllStudentsProfiles,
+          sendResetLink,
+          checkValidityOfToken,
+          updatePassword,
+          countForVolunteersAndOrg
         }}>
       {props.children}
     </context.Provider>

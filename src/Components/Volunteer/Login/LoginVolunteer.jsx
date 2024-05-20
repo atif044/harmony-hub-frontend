@@ -50,7 +50,7 @@ const LoginVolunteer = ({darkMode}) => {
                     Dont Have an Account?
                 </Link>
             </div>
-            <div className='text-nude mt-4 text-xl cursor-pointer hover:underline' >
+            <div className='text-nude mt-4 text-xl cursor-pointer hover:underline' onClick={()=>navigate('/forgotPassword')} >
                 Forgot Password?
             </div>
         </form>

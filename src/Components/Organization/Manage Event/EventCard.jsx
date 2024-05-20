@@ -17,9 +17,7 @@ const EventCard = ({ event }) => {
       <div>
       <button onClick={()=>navigate(`/approveVolunteers/${event._id}`)} className='p-1  rounded-md mr-8 mb-4 relative outline bg-transparent text-green-500'>Approve   {event.VolunteersIdAppliedRequested.length>0 &&<span class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></span>}
  </button>
-      
       </div>
-
       </div>
 
     </div>

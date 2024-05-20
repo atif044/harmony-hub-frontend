@@ -4,6 +4,7 @@ import { MdOutlineDateRange } from 'react-icons/md';
 import { CiClock1 } from 'react-icons/ci';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaPencilAlt } from "react-icons/fa";
+import toast from 'react-hot-toast';
 
 const EventDetailed = () => {
   const createMarkup = (html) => {
@@ -14,7 +15,7 @@ const navigate=useNavigate();
   const { id } = useParams();
   const [event, setEvent] = useState({});
   const [status,setStatus]=useState("");
-  const { eventDetails,checkThePending } = useContext(context);
+  const { eventDetails,checkThePending,changeEventStatus } = useContext(context);
   useEffect(() => {
     const getDetails = async () => {
       try {
@@ -33,6 +34,18 @@ const navigate=useNavigate();
     getDetails();
 
   }, [id, eventDetails]);
+  const changeTheStatus=async()=>{
+    try {
+      let response=await changeEventStatus(id);
+      if(response.data.status==="success"){
+        toast.success(response.data.message);
+        return navigate("/markAttendance")
+      }
+      
+    } catch (error) {
+      return toast.error(error?.response?.data.message)
+    }
+  }
 
   const checkTheCollobaration=async()=>{
     try {
@@ -54,6 +67,11 @@ const navigate=useNavigate();
       <FaPencilAlt className='ml-3 mt-3' title='Edit Details' cursor={"pointer"} onClick={()=>navigate("/updateEvent",{state:{event}})}/>
       </div>
     }
+    <div className='mt-4 mb-4'>
+{     
+ event?.eventStatus==="upcoming"&&  <button className='bg-green-500 text-white p-1 rounded-md' onClick={changeTheStatus}>Start Event</button>
+}   
+ </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="flex items-center">
           <MdOutlineDateRange className="text-gray-500 mr-2" />

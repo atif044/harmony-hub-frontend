@@ -22,8 +22,13 @@ const UpdateEvent = ({darkMode}) => {
     eventEndTime:location.state?.event.eventEndTime|| '',
     universityId:location.state?.event.universityId._id||''
   });
-  
-
+  const [eventLocationName,setEventLocationName]=useState('')
+  const [eventLocationLink,setEventLocationLink]=useState('')
+  const [eventLocationEmbededLink,seteventLocationEmbededLink]=useState('');
+  const [long,setLong]=useState('');
+  const [lat,setLat]=useState('');
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
  const handleUnivChange=(e)=>{
   setFormData({...formData,universityId:e.target.value});
  }
@@ -39,7 +44,11 @@ const UpdateEvent = ({darkMode}) => {
     if(!location.state?.event){
         return navigate("/manageevents")
     }
-    console.log(location.state?.event)
+    setQuery(location.state?.event.eventLocationName|| '')
+    setEventLocationName(location.state?.event.eventLocationName|| '')
+    seteventLocationEmbededLink(location.state?.event.eventLocationEmbededLink|| '')
+    setEventLocationLink(location.state?.event.eventLocationLink|| '')
+
   }, [])
   useEffect(() => {
   allUniversities()
@@ -57,53 +66,66 @@ const UpdateEvent = ({darkMode}) => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    const errors = validateForm(formData);
-    if (Object.keys(errors).length === 0) {
+    
         try {
-            let response=await updateEvents(selectedFile,formData,location.state?.event._id);
+            let response=await updateEvents(selectedFile,formData,location.state?.event._id,eventLocationName,eventLocationLink,eventLocationEmbededLink,lat,long);
             if(response.data.status==="success"){
               navigate(`/detailedevent/${location.state?.event._id}`)
                 return toast.success(response.data.message);
             }
         } catch (error) {
-            console.log(error)
             return toast.error(error.response?.data.message);
         }
-    } else {
-      setErrors(errors);
-    }
+     
   };
 
-  const validateForm = (formData) => {
-    let errors = {};
-
-    // Validate required fields
-    const requiredFields = [
-      'eventName',
-      'eventDescription',
-      'volunteersRequired',
-      'eventLocationLink',
-      'eventLocationName',
-      'eventLocationEmbeddedLink',
-      'eventDurationInDays',
-      'eventStartDate',
-      'eventEndDate',
-      'eventStartTime',
-      'eventEndTime',
-    ];
-    requiredFields.forEach((field) => {
-      if (!String(formData[field]).trim()) {
-        errors[field] = `${field} is required`;
-      }
-    });
-
-    return errors;
-  };
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
+
+  const handleChangeLocation = (event) => {
+    const inputValue = event.target.value;
+    setQuery(inputValue);
+    setEventLocationName(inputValue)
+    
+    // Call the LocationIQ API for autocomplete suggestions
+    if (inputValue.trim() === '') {
+      setResults([]);
+      return;
+    }
+
+    fetch(`https://us1.locationiq.com/v1/autocomplete.php?key=pk.2c4f94512b9b8161910660ec686d8a27&q=${inputValue}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data?.error) {
+          setResults([]);
+          return;
+        }
+        setResults(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  };
+  const handleSelectLocation = (result) => {
+    setQuery(result.display_name);
+    setEventLocationName(result.display_name);
+      const mapUrl = `https://maps.locationiq.com/v2/staticmap?key=pk.2c4f94512b9b8161910660ec686d8a27&center=${result.lat},${result.lon}&zoom=15&size=600x450&markers=${result.lat},${result.lon}`;
+  // Create the Google Maps URL to open on click
+  const googleMapsUrl = `https://www.google.com/maps?q=${result.lat},${result.lon}`;
+  setEventLocationLink(googleMapsUrl);
+  setLong(result.lon)
+  setLat(result.lat)
+  const embdLink=`<a href=${googleMapsUrl} target="_blank" rel="noopener noreferrer">
+  <img src=${mapUrl}  alt="Map" width="450" height="450" />
+  </a>`
+  seteventLocationEmbededLink(embdLink);
+  
+    setResults([]);
+  };
+
   return (
     <div className="max-w-md mx-auto ml-10 mr-10 mt-8">
       <h2 className="text-2xl font-semibold mb-4">Update Event</h2>
@@ -167,20 +189,24 @@ const UpdateEvent = ({darkMode}) => {
         </div>
         <div className="mb-4">
           <label htmlFor="eventLocationLink" className="block mb-1 font-medium">
-            Event Location Link <span className="text-red-500">*</span>
+            Event Location  <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            id="eventLocationLink"
-            name="eventLocationLink"
-            value={formData.eventLocationLink}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-          {errors.eventLocationLink && (
-            <p className="text-red-500 mt-1">{errors.eventLocationLink}</p>
-          )}
+          <div className="dropdown">
+      <input
+        type="text"
+        className='w-full border rounded px-3 py-2'
+        value={query}
+        onChange={handleChangeLocation}
+        placeholder="Enter location..."
+      />
+      <ul className="dropdown-content">
+        {results.map((result, index) => (
+          <li className='border-b-2' key={index} onClick={() => handleSelectLocation(result)}>
+            {result.display_name}
+          </li>
+        ))}
+      </ul>
+    </div>
         </div>
   
         <div className="mb-4">

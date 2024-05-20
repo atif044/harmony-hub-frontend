@@ -63,12 +63,23 @@ const MyDetailedEventPage = () => {
   // State to track the number of attendees
   const [attendeesApplied, setAttendeesApplied] = useState(50);
   const attendeesRequired = 100;
-  const {detailedEventForVolunteer,joinEvent,myAttendance,requestCertificate,getMyContractDetails,checkIfAlreadyRequested,checkCertificteExistOrNot}=useContext(context);
+  const {detailedEventForVolunteer,joinEvent,reviewTheEvent,myAttendance,requestCertificate,getMyContractDetails,checkIfAlreadyRequested,checkCertificteExistOrNot}=useContext(context);
   const [event,setEvent]=useState();
   const [requested,setRequested]=useState(false);
   const [myEventAttendance,setMyAttendance]=useState('');
   const [certification,setCertification]=useState('');
   const [email,setEmail]=useState('')
+  const reviewEvent=async(rating)=>{
+    try {
+      const response=await reviewTheEvent(id,rating);
+      if(response.data.status==="success"){
+        return toast.success(response.data.message)
+      }
+    } catch (error) {
+      return toast.error(error?.response.data.message)
+    }
+  }
+  
   let checkRequest=async()=>{
     try {
       let response=await checkIfAlreadyRequested(id);
@@ -328,16 +339,28 @@ const MyDetailedEventPage = () => {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-              <p className="text-xl font-semibold text-gray-700">4 Credit Hours Added to Profile</p>
+              <p className="text-xl font-semibold text-gray-700">{event?.eventDurationInDays} Credit Hours Added to Profile</p>
             </div>
           </div>
 
-          {/* Join Event Button */}
+          {event?.eventStatus==="upcoming"&&
           <div className="flex justify-center mt-8">
             <button disabled onClick={clickToJoin} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg">
               Withdraw
             </button>
           </div>
+          }
+        
+          <div className="mt-8 bg-white p-4 rounded-lg shadow-md">
+            <h1 className="text-2xl font-bold">Give Rating</h1>
+            <button className="text-green-600 p-1 rounded-md border-s-2 border-r-2 hover:text-green-900 mr-2" onClick={()=>reviewEvent("p")} >
+                    👍
+                  </button>
+                  <button className="text-red-600 p-1 rounded-md border-r-2 border-s-2 ml-2 hover:text-red-900" onClick={()=>reviewEvent("n")} >
+                    👎
+                  </button>
+          </div>
+        
         </div>
 
        {/* Sidebar */}

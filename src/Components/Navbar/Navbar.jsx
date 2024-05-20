@@ -9,13 +9,15 @@ const Navbar = () => {
     {name:"Create Event",path:"createEvent"},
     {name:"Manage Events",path:"manageevents"},
     {name:"Mark Attendance",path:"markAttendance"},
-    {name:"Manage Attendance",path:"manageAttendance"},
+    {name:"Ended Events",path:"endedEvents"},
+    {name:"Profile",path:"myNgoProfile"},
   ]
   const navbarUniversity=[
     {name:"Accept Collaboration",path:"acceptCollab"},
     {name:"Approve Students",path:"approvestudents"},
-    {name:"View Profile",path:"studentprofile"},
     {name:"Collaborated Events",path:"collabEvents"},
+    {name:"Students",path:"allProfiles"},
+    {name:"Profile",path:"universityPP"},
   ]
 
   const navbarVounteer=[
@@ -41,9 +43,9 @@ const Navbar = () => {
             <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
-                        <a href="javascript:void(0)">
+                        <Link to={'/'}>
                             <h2 className="text-2xl font-bold">Harmony Hub</h2>
-                        </a>
+                        </Link>
                         <div className="md:hidden">
                             <button
                                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"

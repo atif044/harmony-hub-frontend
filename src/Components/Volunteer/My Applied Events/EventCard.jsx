@@ -13,7 +13,6 @@ const EventCard = ({ event }) => {
         </p>
       </div>
       <button className='bg-zinc-600 ml-2 mb-4 text-white p-1 rounded-md' onClick={()=>navigate(`/myAppliedDetailed/${event._id}`)}>More Details</button>
-
     </div>
   );
 };

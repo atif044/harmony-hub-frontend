@@ -28,15 +28,8 @@ const EventCard = ({ event,set,fetchAgain }) => {
       </div>
       <div className='flex justify-evenly'>
       <div>
-      <button className='bg-transparent text-green-500  rounded-md p-1 ml-4 mb-4 border-solid border-2' title='Mark Attendance' onClick={()=>navigate(`/markAttendance/${event._id}`)}> Mark  </button>
+      <button className='bg-transparent text-green-500  rounded-md p-1 ml-4 mb-4 border-solid border-2' title='Mark Attendance' onClick={()=>navigate(`/reviewVolunteer/${event._id}`)}> Review Volunteers  </button>
       </div>
-      <div>
-      <button className='bg-transparent text-green-500 mr-4 rounded-md p-1 mb-4 border-solid border-2' title='Edit Attendance' onClick={()=>navigate(`/editAttendance/${event._id}`)}> Edit  </button>
-      </div>
-      <div>
-      <button className='bg-transparent text-green-500 ml-4 mr-4 rounded-md p-1 mb-4 border-solid border-2' title='End Event' onClick={()=>EndEvent(event._id)}> End  </button>
-      </div>
-
       </div>
 
     </div>

@@ -52,6 +52,18 @@ const StudentProfilePageForApproval = () => {
                 <p className="font-semibold">CNIC Back Pic:</p>
                 <img src={user?.cnicBack} alt="CNIC Back Pic" className="w-full h-40 object-contain rounded-lg"/>
             </div>
+          { 
+            user?.studentCardPic && <>
+             <div colSpan="2">
+                <p className="font-semibold">Student Card Pic:</p>
+                <img src={user?.studentCardPic} alt="CNIC Back Pic" className="w-full h-40 object-contain rounded-lg"/>
+            </div>
+            <div colSpan="2">
+                <p className="font-semibold">ENROLLMENT:</p>
+                <h1>{user?.enrollmentNo}</h1>
+            </div>
+            </>
+            }
     </div>
 </div>
   )

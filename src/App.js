@@ -50,6 +50,18 @@ import CertificateOfParticipation from './Components/Admin/IssueCertificates/Cet
 import ProfilePage from './Components/Volunteer/My Profile/profilePage.jsx';
 import AllStudentPage from './Components/University/Students/AllStudentPage.jsx';
 import StudentProfilePageForApproval from './Components/University/Students/StudentProfilePageForApproval.jsx';
+import PublicProfile from './Components/Volunteer/Public Profile/PublicProfile.jsx';
+import AllEndedEvents from './Components/Organization/Ended Events/AllEndedEvents.jsx';
+import ReviewTable from './Components/Organization/Ended Events/Review Volunteers/ReviewTable.jsx';
+import NGOProfilePage from './Components/Organization/My Profile/ngopage.jsx'
+import NGOPublicProfilePage from './Components/Organization/My Profile/PublicProfileNgo.jsx';
+import UniversityPP from './Components/University/My Profile/UniversityPP.jsx';
+import UniversityPublicProfilePage from './Components/University/My Profile/UniversityPublicPP';
+import AllProfileTable from './Components/University/All Student Profile/AllProfileTable.jsx';
+import ForgotPassword from './Components/Forgot Password/ForgotPassword.jsx';
+import ResetPasswordForm from './Components/Forgot Password/ResetPasswordForm.jsx';
+import HomePage from './Components/Home/homeshowcasepage.jsx';
+import NotFound from './Components/404/Error404.jsx';
 function App() {
   return (
     <>
@@ -66,11 +78,9 @@ function App() {
     <Route exact path="/signuporganization" element={<OrganizationLoginSignupProtectedRoute/>}>
       <Route exact path="/signuporganization" element={<SignupOrganization/>}/>
     </Route>
-
     <Route exact path='/verifyOtp' element={<OrganizationVerifyOtpProtected/>}>
       <Route exact path="/verifyOtp" element={<VerifyOtp/>}/>
     </Route>
-    
     <Route exact path="/createEvent" element={<OrganizationProtected/>}>
     <Route exact path="/createEvent" element={<CreateEvent/>}/>
     </Route>
@@ -80,16 +90,34 @@ function App() {
     <Route exact path="/detailedevent/:id" element={<OrganizationProtected/>}>
     <Route exact path="/detailedevent/:id" element={<EventDetailed/>}/>
     </Route>
+    <Route exact path="/updateEvent" element={<OrganizationProtected/>}>
     <Route exact path="/updateEvent" element={<UpdateEvent/>}/>
-
+    </Route>
     <Route exact path="/approveVolunteers/:id" element={<OrganizationProtected/>}>
     <Route exact path="/approveVolunteers/:id" element={<EventManagementPage/>}/>
     </Route>
+    <Route exact path="/markAttendance" element={<OrganizationProtected/>}>
     <Route exact path="/markAttendance" element={<AllStartedEvents/>}/>
+    </Route>
+    <Route exact path="markAttendance/:id" element={<OrganizationProtected/>}>
     <Route exact path="markAttendance/:id" element={<AttendancePage/>}/>
+    </Route>
+    <Route exact path="/editAttendance/:id" element={<OrganizationProtected/>}>
     <Route exact path="/editAttendance/:id" element={<EditAttendanceAll/>}/>
+    </Route>
+    <Route exact path="/editAttendance/edit/:id" element={<OrganizationProtected/>}>
     <Route exact path="/editAttendance/edit/:id" element={<AttendancePageForUpdation/>}/>
-    <Route exact path="/ccc" element={<MyComponent/>}/>
+    </Route>
+    <Route exact path='/endedEvents' element={<OrganizationProtected/>} >
+    <Route exact path='/endedEvents' element={<AllEndedEvents/>} />
+    </Route>
+    <Route exact path='/reviewVolunteer/:id' element={<OrganizationProtected/>} >
+    <Route exact path='/reviewVolunteer/:id' element={<ReviewTable/>} />
+    </Route>
+    <Route exact path='/myNgoProfile' element={<OrganizationProtected/>}>
+    <Route exact path='/myNgoProfile' element={<NGOProfilePage/>}/>
+    </Route>
+    <Route exact path='/NgoPublic/:id' element={<NGOPublicProfilePage/>}/>
     {/* ================================UNIVERSITYYYYYYYYY */}
     <Route exact path="/signupuniversity" element={<OrganizationLoginSignupProtectedRoute/>}>
     <Route exact path="/signupuniversity" element={<SignupUniversity/>}/>
@@ -109,11 +137,27 @@ function App() {
     <Route exact path='/collabEvents' element={<UniversityProtected/>}>
     <Route exact path='/collabEvents' element={<CollaboratedEvents/>}/>
     </Route>
+    <Route exact path='/approvestudents' element={<UniversityProtected/>}>
     <Route exact path='/approvestudents' element={<AllStudentPage/>}/>
+    </Route>
+    <Route exact path="/profileOfStudent/:id" element={<UniversityProtected/>}>
     <Route exact path="/profileOfStudent/:id" element={<StudentProfilePageForApproval/>}/>
+      </Route>
+    <Route exact path="/universityPP" element={<UniversityProtected/>}>
+    <Route exact path="/universityPP" element={<UniversityPP/>}/>
+        </Route>
+    <Route exact path="/allProfiles" element={<UniversityProtected/>}>
+    <Route exact path="/allProfiles" element={<AllProfileTable/>}/>
+      </Route>
+    <Route exact path="/universityPublicProfile/:id" element={<UniversityPublicProfilePage/>}/>
     {/* =======================================VOLUNTEER */}
+    <Route exact path='/volunteersignup' element={<OrganizationLoginSignupProtectedRoute/>} >
     <Route exact path='/volunteersignup' element={<Register/>} />
-    <Route exact path='volunteerlogin' element={<LoginVolunteer/>}/>
+    </Route>
+
+    <Route exact path='/volunteerlogin' element={<OrganizationLoginSignupProtectedRoute/>}>
+    <Route exact path='/volunteerlogin' element={<LoginVolunteer/>}/>
+    </Route>
     <Route exact path="/verifyOtpVolunteer" element={<VolunteerVerifyOtpProtected/>}>
     <Route exact path="/verifyOtpVolunteer" element={<VerifyOtpVolunteer/>}/>
     </Route> 
@@ -126,8 +170,13 @@ function App() {
     <Route exact path="/myappliedevents" element={<VolunteerProtected/>}>
     <Route exact path="/myappliedevents" element={<AllAppliedEvents/>}/>
     </Route>
+    <Route exact path="/myAppliedDetailed/:id" element={<VolunteerProtected/>}>
     <Route exact path="/myAppliedDetailed/:id" element={<MyDetailedEventPage/>}/>
+    </Route>
+
+    <Route exact path='/myprofile' element={<VolunteerProtected/>}>
     <Route exact path='/myprofile' element={<ProfilePage/>}/>
+    </Route>
     {/* ===========================================Admin */}
     <Route exact path="/adminlogin" element={<Login/>}/>
     <Route exact path="/adminsignup" element={<Signup/>}/>
@@ -139,6 +188,14 @@ function App() {
     <Route exact path="/profileOfTheUniversity/:id" element={<UniversityProfilePage/>}/>
     <Route exact path='/giveCertificate' element={<GiveCertificate/>}/>
     <Route exact path="/issueCertificates" element={<CertificateOfParticipation/>}/>
+    <Route exact path='/userPublicProfile/:id' element={<PublicProfile/>} />
+    {/*  ===================================FORGOT PASSWORD */}
+    <Route exact path='/forgotPassword' element={<ForgotPassword/>}/>
+    <Route exact path='/forgotPassword/:token' element={<ResetPasswordForm/>}/>
+     {/* =================================HOME PAGE */}
+     <Route exact path='/' element={<HomePage/>}/>
+     {/* No Routes Found */}
+     <Route exact path='/*' element={<NotFound/>}/>
     </Routes>
     </div>
     </HarmonyState>

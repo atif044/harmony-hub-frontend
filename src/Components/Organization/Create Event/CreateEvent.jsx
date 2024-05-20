@@ -130,9 +130,8 @@ const CreateEvent = ({darkMode}) => {
       return toast.error("End Date cant be less than Start Date");
     }
     let todaysDate=(date.getFullYear()+"-"+((date.getMonth()+1)>=10?(date.getMonth() +1):"0"+(date.getMonth() +1)) +"-"+(date.getDate()<=9?"0"+date.getDate():date.getDate()));
-    console.log(todaysDate)
-    if(formData.eventStartDate<= todaysDate){
-      return toast.error("Start date must be in future");
+    if(formData.eventStartDate< todaysDate){
+      return toast.error("Start date must be greater or equal to todays date");
     }
         try {
           
