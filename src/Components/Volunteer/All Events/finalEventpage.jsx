@@ -259,10 +259,7 @@ const EventPage = () => {
         </div>
 
        {/* Sidebar */}
-<div className="lg:w-1/4 lg:pl-0 mt-8 lg:mt-0"> {/* Adjust the padding value here */}
-  <Sidebar />
 
-        </div>
       </div>
     </div>
   );

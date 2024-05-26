@@ -52,6 +52,7 @@ const StudentProfilePageForApproval = () => {
                 <p className="font-semibold">CNIC Back Pic:</p>
                 <img src={user?.cnicBack} alt="CNIC Back Pic" className="w-full h-40 object-contain rounded-lg"/>
             </div>
+                        {console.log(user)}
           { 
             user?.studentCardPic && <>
              <div colSpan="2">

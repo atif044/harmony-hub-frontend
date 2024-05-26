@@ -17,11 +17,18 @@ const Step1 = ({ onNext, email, password,setProfilePhoto,profilePhoto, confirmPa
             </div>
             <div className="mb-4">
                 <label className="block mb-2" htmlFor="password">Password</label>
-                <input required className="block w-full p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500" type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input required 
+                pattern='^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+              title="Password must include at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long"
+                
+                className="block w-full p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500" type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className="mb-4">
                 <label className="block mb-2" htmlFor="confirmPassword">Confirm Password</label>
-                <input required className="block w-full p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500" type="password" id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                <input  required 
+                  pattern='^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+              title="Password must include at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long"
+                 className="block w-full p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500" type="password" id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
             <div className="mb-4">
             <label className="block mb-2" htmlFor="confirmPassword">Profile Photo</label>
@@ -171,7 +178,7 @@ const Register = () => {
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
     const [enrollmentNo,setEnrollmentNo]=useState('');
-    const [studentCardPic,setStudentCardPic]=useState(null)
+    const [studentCardPic,setStudentCardPic]=useState('')
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedCountryISO, setSelectedCountryISO] = useState("gb");
@@ -228,12 +235,17 @@ const Register = () => {
 
     const handleRegister = async() => {
 
-      let response=  await volunteerSignup({email,password,name,dob,gender,country,city,university,enrollmentNo},profilePhoto,nicBack,nicFront,studentCardPic);
+      try {
+        let response=  await volunteerSignup({email,password,name,dob,gender,country,city,university,enrollmentNo},profilePhoto,nicBack,nicFront,studentCardPic);
         if(response.data.status==="success"){
           toast.success(response.data.message);
           setVolunteerToken(response.data.body);
           navigate("/verifyOtpVolunteer")
         }
+      } catch (error) {
+        toast.error(error.response.data.message)
+      }
+      
     };
 
     return (

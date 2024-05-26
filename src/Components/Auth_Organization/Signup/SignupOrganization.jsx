@@ -47,7 +47,8 @@ const SignupOrganization = ({darkMode}) => {
 
             <div className="mt-4">
                 <label className={`${darkMode==="dark"?"text-white":"text-black"} block font-semibold`} htmlFor="password">Password</label>
-                <input className={`w-full shadow-inner ${darkMode==="dark"?"bg-zinc-600  text-white":"bg-gray-100"}  rounded-lg placeholder-black text-2xl pl-2  border-none block mt-1`} id="password" type="password" name="organizationPassword" value={credentials.organizationPassword} onChange={onChange} required autoComplete="off"/>
+                <input pattern='^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+              title="Password must include at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long" className={`w-full shadow-inner ${darkMode==="dark"?"bg-zinc-600  text-white":"bg-gray-100"}  rounded-lg placeholder-black text-2xl pl-2  border-none block mt-1`} id="password" type="password" name="organizationPassword" value={credentials.organizationPassword} onChange={onChange} required autoComplete="off"/>
             </div>
             <div className="mt-4">
                 <label className={`${darkMode==="dark"?"text-white":"text-black"} block font-semibold`} htmlFor="password">Phone Number</label>

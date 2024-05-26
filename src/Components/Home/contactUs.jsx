@@ -20,12 +20,12 @@ const ContactPage = () => {
             <div className="flex flex-col items-center">
               <FaPhone className="text-blue-500 text-4xl mb-4" />
               <h3 className="text-xl font-bold mb-2">Phone</h3>
-              <p>(123) 456-7890</p>
+              <p>+92 336 4795900</p>
             </div>
             <div className="flex flex-col items-center">
               <FaEnvelope className="text-blue-500 text-4xl mb-4" />
               <h3 className="text-xl font-bold mb-2">Email</h3>
-              <p>info@harmonyhub.com</p>
+              <p>atifn12500@gmail.com</p>
             </div>
             <div className="flex flex-col items-center">
               <FaMapMarkerAlt className="text-blue-500 text-4xl mb-4" />
@@ -33,50 +33,6 @@ const ContactPage = () => {
               <p>Barhia University lahore</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section className="bg-gray-100 py-20">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-12">Send Us a Message</h2>
-          <form className="w-full max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
-            <div className="mb-6">
-              <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name</label>
-              <input
-                type="text"
-                id="name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-500"
-                placeholder="Your Name"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-500"
-                placeholder="Your Email"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2">Message</label>
-              <textarea
-                id="message"
-                rows="4"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-500"
-                placeholder="Your Message"
-              ></textarea>
-            </div>
-            <div>
-              <button
-                type="submit"
-                className="bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300"
-              >
-                Send Message
-              </button>
-            </div>
-          </form>
         </div>
       </section>
 

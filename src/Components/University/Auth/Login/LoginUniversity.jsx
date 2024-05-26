@@ -33,16 +33,16 @@ const LoginUniversity = ({darkMode}) => {
         <form onSubmit={onSubmit}>
             <div className="mt-4">
                 <label className={`block font-semibold ${darkMode==="dark"?"text-white":"text-black"}`} htmlFor="email">Email</label>
-                <input className={`w-full shadow-inner  bg-gray-100 rounded-lg placeholder-black text-2xl pl-2 border-none block mt-1 ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}`} id="email" onChange={onChange} value={credentials.organizationEmail} type="email" name="universityEmail"  required autoComplete='off'/>
+                <input  className={`w-full  md:w-6/12 shadow-inner  bg-gray-100 rounded-lg placeholder-black text-2xl pl-2 border-none block mt-1 ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}`} id="email" onChange={onChange} value={credentials.organizationEmail} type="email" name="universityEmail"  required autoComplete='off'/>
             </div>
 
             <div className="mt-4">
                 <label className={`${darkMode==="dark"?"text-white":"text-black"} block font-semibold`} htmlFor="password">Password</label>
-                <input className={`w-full shadow-inner ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}  rounded-lg placeholder-black text-2xl pl-2  border-none block mt-1`} onChange={onChange} value={credentials.organizationPassword} id="password" type="password" name="universityPassword"  required autoComplete="off"/>
+                <input className={`w-full  md:w-6/12 shadow-inner ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}  rounded-lg placeholder-black text-2xl pl-2  border-none block mt-1`} onChange={onChange} value={credentials.organizationPassword} id="password" type="password" name="universityPassword"  required autoComplete="off"/>
             </div>
 
-            <div className="flex items-center justify-between mt-8">
-                <button type="submit" className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-2 md:text-lg md:px-10">Login</button>
+            <div className="flex items-center mt-8">
+                <button type="submit" className="flex mr-20 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-2 md:text-lg md:px-10">Login</button>
                 <Link className={`${darkMode==="dark"?"text-white":"text-black"} font-semibold`} to="/signupuniversity">
                     Dont Have an Account?
                 </Link>

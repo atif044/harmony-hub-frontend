@@ -62,8 +62,12 @@ const CertificateOfParticipation = ({ participantName, eventDescription, eventDe
           <h1 className="text-3xl font-bold text-white mb-4">Certificate of Participation</h1>
           {/* Collaborating organizations logos */}
           <div className="mb-6 text-white flex flex-wrap">
-{           details.universityName!==""&& <h1 className="h-20 w-auto mr-4 mb-4" >{details.universityName}   X</h1>
-}            <h1 className="h-20 w-auto mr-4 mb-4" >{details.organizationName}</h1>
+{           details.universityName!==""&& 
+<h1 className="h-20 w-auto mr-4 mb-4" >{details.universityName}  </h1>
+      
+}
+<br/>         
+   <h1 className="h-20 w-auto mr-4 mb-4" >{details.organizationName}</h1>
             {/* Add spaces for more logos */}
           </div>
           {/* Participant details */}

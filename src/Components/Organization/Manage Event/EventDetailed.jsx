@@ -15,7 +15,7 @@ const navigate=useNavigate();
   const { id } = useParams();
   const [event, setEvent] = useState({});
   const [status,setStatus]=useState("");
-  const { eventDetails,checkThePending,changeEventStatus } = useContext(context);
+  const { eventDetails,checkThePending,changeEventStatus,deleteEvent } = useContext(context);
   useEffect(() => {
     const getDetails = async () => {
       try {
@@ -57,6 +57,18 @@ const navigate=useNavigate();
       
     } catch (error) {
       console.log(error)
+    }
+  }
+  const handleDelete=async()=>{
+    try {
+      let response=await deleteEvent(id);
+      if(response.data.status==="success"){
+        navigate('/manageevents')
+        return toast.success(response.data.message);
+      }
+      
+    } catch (error) {
+      return toast.error(error.response.data.message)
     }
   }
   return (
@@ -114,6 +126,12 @@ const navigate=useNavigate();
         <h2 className="text-xl font-bold mb-2">Embedded Link</h2>
         <div className='overflow-hidden' dangerouslySetInnerHTML={createMarkup(event.eventLocationEmbededLink)}></div>
         </div>
+        {
+          event.eventStatus==="upcoming" &&
+          <div className='flex mt-6 justify-center'>
+          <button onClick={()=>handleDelete()} className='bg-red-500 text-white rounded-md p-1'>Delete</button>
+        </div>
+        }
 
     </div>
   );

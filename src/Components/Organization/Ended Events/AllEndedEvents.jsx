@@ -10,6 +10,7 @@ const AllEndedEvents = () => {
   const fetchAllEvents=async()=>{
     try {
       let response=await alleventsended();
+      console.log(response)
       if(response.data.status==="success"){
         setEvents(response.data.body);
       }
@@ -22,7 +23,7 @@ const AllEndedEvents = () => {
   }, [fetchAgain])
   return (
     <div className=' ml-10  mr-10 container mx-auto mt-5'>
-          <h1 className="text-3xl font-bold mb-5">Mark Attendance</h1>
+          <h1 className="text-3xl font-bold mb-5">Ended Events</h1>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     {
       events.length===0 &&<h1 className=''>No Event is Ended yet</h1>

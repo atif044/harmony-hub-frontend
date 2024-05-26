@@ -14,7 +14,7 @@ const navigate=useNavigate();
   const { id } = useParams();
   const [event, setEvent] = useState({});
   const [status,setStatus]=useState("");
-  const { getDetail,approveEvent } = useContext(context);
+  const { getDetail,approveEvent,rejectEvent } = useContext(context);
   useEffect(() => {
     const getDetails = async () => {
       try {
@@ -28,16 +28,31 @@ const navigate=useNavigate();
     };
     getDetails();
 
-  }, [id, ]);
+  }, [id ]);
 
     const approveThisEvent=async(id)=>{
         try {
             let response=await approveEvent(id);
             if(response.data.status==="success"){
                 toast.success(response.data.message);
+                navigate('/collabEvents')
+
             }
 
         } catch (error) {
+            toast.error(error?.response?.data.message)
+        }
+    }
+    const rejectThisEvent=async(id)=>{
+        try {
+            let response=await rejectEvent(id);
+            if(response.data.status==="success"){
+                toast.success(response.data.message);
+                navigate('/collabEvents')
+            }
+
+        } catch (error) {
+
             toast.error(error?.response?.data.message)
         }
     }
@@ -62,10 +77,12 @@ const navigate=useNavigate();
         </div>
       </div>
       <div className="mt-6">
-      <div className='flex'>
+      {
+        event.eventStatus==="upcoming" &&
+        <div className='flex'>
         <button className='bg-green-500 text-white p-1 rounded-md' onClick={()=>approveThisEvent(event._id)}>Accept</button>
-        <button className='bg-red-500 text-white rounded-md p-1 ml-2'>Reject</button>
-      </div>
+        <button className='bg-red-500 text-white rounded-md p-1 ml-2' onClick={()=>rejectThisEvent(event._id)}>Reject</button>
+      </div>}
         <h2 className="text-xl font-bold mb-2">Description</h2>
       <div className=''>
         <p className="mb-4 whitespace-pre-wrap break-all">{event.EventDescription}</p>
@@ -85,7 +102,7 @@ const navigate=useNavigate();
       </div>
       <div className="mt-6">
         <h2 className="text-xl font-bold mb-2">Status</h2>
-        <p className="mb-4">Upcoming</p>
+        <p className="mb-4">{event.eventStatus}</p>
         <h2 className="text-xl font-bold mb-2">Embedded Link</h2>
         <div className='overflow-hidden' dangerouslySetInnerHTML={createMarkup(event.eventLocationEmbededLink)}></div>
         </div>

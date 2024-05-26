@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaHandsHelping, FaRegBuilding, FaUniversity, FaUserShield, FaCheckCircle, FaClipboardList, FaUsers, FaQuoteLeft, FaTimes } from 'react-icons/fa';
 import context from '../../Context/HarmonyContext';
 import { useNavigate } from 'react-router-dom';
+import ServicesPage from './Services';
+import AboutPage from './aboutUs';
+import ContactPage from './contactUs';
 const HomePage = () => {
     const navigate=useNavigate()
     const [isModalOpen, setModalOpen] = useState(false);
@@ -107,7 +110,7 @@ useEffect(() => {
   return (
     <>
     
-    <div className="bg-gray-100 min-h-screen">
+    <div className="-ml-10 -mr-10 bg-gray-100 min-h-screen">
       {/* Hero Section */}
       <section className="bg-blue-500 text-white py-20">
         <div className="container mx-auto text-center">
@@ -183,6 +186,9 @@ useEffect(() => {
           </div>
         </div>
       </section>
+      <section>
+      <ServicesPage/>
+      </section>
 
       {/* Testimonials Section */}
       <section className="bg-gray-100 py-20">
@@ -219,6 +225,12 @@ useEffect(() => {
             </div>
           </div>
         </div>
+      </section>
+      <section>
+      <AboutPage/>
+      </section>
+      <section>
+      <ContactPage/>
       </section>
 
      

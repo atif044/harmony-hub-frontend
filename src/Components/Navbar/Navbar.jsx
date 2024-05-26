@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import context from "../../Context/HarmonyContext";
 import toast from "react-hot-toast";
+import logo from '../../assets/bulc.png'
 const Navbar = () => {
   const [navbar,setNavbar]=React.useState(false);
   const {organizationtoken,universitytoken,volunteertoken,admintoken,logOut}=useContext(context);
@@ -24,6 +25,7 @@ const Navbar = () => {
     {name:"All Events",path:"events"},
     {name:"My Profile",path:"myprofile"},
     {name:"My Applied",path:"myappliedevents"},
+    {name:"Univesity Event",path:"uniEvents"},
   ];
 
   const navbarAdmin=[
@@ -44,7 +46,8 @@ const Navbar = () => {
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
                         <Link to={'/'}>
-                            <h2 className="text-2xl font-bold">Harmony Hub</h2>
+                        <img src={logo} className="h-14"/>
+                    
                         </Link>
                         <div className="md:hidden">
                             <button

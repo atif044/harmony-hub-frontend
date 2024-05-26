@@ -1,9 +1,8 @@
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext,useRef } from 'react';
 import context from '../../../Context/HarmonyContext';
 import { FaPencilAlt } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-
 const ProfilePage = () => {
   const [profileData, setProfileData] = useState({
     fullName: "John Doe",
@@ -173,6 +172,7 @@ const ProfilePage = () => {
 
   // State variables for toggling sections
   const [fullscreenImage, setFullscreenImage] = useState(null);
+  const [fullscreenImagecert, setFullscreenImagecert] = useState(null);
 
   const [showAllVolunteerActivities, setShowAllVolunteerActivities] = useState(false);
 
@@ -181,6 +181,8 @@ const ProfilePage = () => {
   // Functions for handling fullscreen image
   const openFullscreenImage = (image) => setFullscreenImage(image);
   const closeFullscreenImage = () => setFullscreenImage(null);
+  const openFullscreenImagecert = (image) => setFullscreenImagecert(image);
+  const closeFullscreenImagecert = () => setFullscreenImagecert(null);
 
   // State variables for window width and number of columns
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -194,7 +196,7 @@ const ProfilePage = () => {
     return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
 
-  const {myProfile,getMyContractDetails,addAboutMe}=useContext(context);
+  const {myProfile,getMyContractDetails,addAboutMe,getRating,addThePhoto}=useContext(context);
   const [details,setDetails]=useState('');
   const [certifications,setCertifications]=useState([])
   const [university,setuniversity]=useState('')
@@ -216,8 +218,23 @@ const ProfilePage = () => {
   }
 
   const [fetch,setfetch]=useState(false)
+  const [rating,setRating]=useState(5);
+  const Rating=async()=>{
+      try {
+        
+        let response=await getRating();
+        console.log(response)
+        if(response.data.status==="success"){
+          setRating(response.data.rating)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
   useEffect(() => {
-      fetchMyProifleDetails()
+      fetchMyProifleDetails();
+      Rating()
   }, [fetch])  
   const [bio,setbio]=useState('');
   const [enableEditBio,setEnableEditBio]=useState(false);
@@ -234,7 +251,24 @@ const ProfilePage = () => {
       return toast.error(error?.response?.data.message)
     }
   }
-
+  const ref=useRef(null)
+  const [image,setImage]=useState(null);
+  const handleFileChange = (e) => {
+      setImage(e.target.files[0]);
+    };
+  const submitPhoto=async()=>{
+      try {
+          let response=await addThePhoto(image);
+          if(response.data.status==="success"){
+              setfetch(!fetch)
+              setImage(null);
+              toast.success("Image Successfully uploaded")
+          }
+          
+      } catch (error) {
+          return toast.error(error.response.data.message)
+      }
+  }
   return (
     
     <div className="container mx-auto py-8">
@@ -247,12 +281,23 @@ const ProfilePage = () => {
                 <h1 className="text-3xl font-bold text-gray-800">{details?.fullName}</h1>
                 <p className="text-gray-600">{details?.city}, {details?.country}</p>
               </div>
-              <img
-                src={details?.profilePic} // Placeholder for profile picture
-                alt="Profile Picture"
-                className="rounded-full h-24 w-24 cursor-pointer"
-                onClick={() => openFullscreenImage(details?.profilePic)}
-              />
+
+                       <div className='flex flex-col justify-center items-center'>
+
+                            <img
+                                src={details?.profilePic} // Placeholder for profile picture
+                                alt="Profile Picture"
+                                className="rounded-full h-24 w-24 cursor-pointer"
+                                onClick={() => openFullscreenImage(details?.profilePic)}
+                            />
+                            <input ref={ref} type='file' className='hidden' onChange={handleFileChange} accept='image/*' />
+{           
+             image===null?  <FaPencilAlt className='-mt-1' type='file' onClick={()=>ref.current.click()}/>:
+             <div>
+                    <button className='bg-green-500 text-white p-1 rounded-md' onClick={submitPhoto}>Change Dp</button>
+                    <button onClick={()=>setImage(null)}>Cancel</button>
+             </div>
+}                        </div>
             </div>
             {/* Stats Section */}
 <div className="border-t border-gray-300 py-4">
@@ -270,16 +315,17 @@ const ProfilePage = () => {
         <p>Events</p>
       </div>
     </div>
-    <div className={`w-full sm:w-1/2 md:w-1/4 mb-4`}>
-      <div className="flex flex-col items-center justify-center bg-gray-200 rounded-md p-2">
-        <p className="font-bold text-lg">{details?.eventAppliedFor?.length}</p>
-        <p>Badges</p>
-      </div>
-    </div>
+    
     <div className={`w-full sm:w-1/2 md:w-1/4 mb-4`}>
       <div className="flex flex-col items-center justify-center bg-gray-200 rounded-md p-2">
         <p className="font-bold text-lg">{certifications?.length}</p>
         <p>Certifications</p>
+      </div>
+    </div>
+    <div className={`w-full sm:w-1/2 md:w-1/4 mb-4`}>
+      <div className="flex flex-col items-center justify-center bg-gray-200 rounded-md p-2">
+        <p className="font-bold text-lg">{rating}</p>
+        <p>Rating</p>
       </div>
     </div>
   
@@ -325,7 +371,6 @@ const ProfilePage = () => {
                 <div key={index} className="mb-2">
                   <p className="text-gray-700">
                     <span className="font-bold">Name:</span> {activity.EventName}, <span className="font-bold">Date:</span> {new Date(activity.eventEndDate).toDateString()}<br />
-                    <span className="font-bold">Description:</span> {activity.EventDescription}
                   </p>
                 </div>
               ))}
@@ -342,11 +387,11 @@ const ProfilePage = () => {
             <div className="border-t border-gray-300 py-4 ">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Certifications</h2>
               <div className="flex overflow-y-hidden overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                {certifications?.slice(0, 3).map((certification, index) => (
+                {certifications?.map((certification, index) => (
                   <div
                     key={index}
                     className="relative flex-shrink-0 mr-4"
-                    onClick={() => openFullscreenImage(certification[2])}
+                    onClick={() => openFullscreenImagecert(certification[2])}
                   >
                     <img
                       src={certification[2]}
@@ -357,47 +402,9 @@ const ProfilePage = () => {
                   </div>
                 ))}
               </div>
-              {certifications?.length > 3 &&
-                <button
-                  className="mt-2  text-blue-600"
-                  onClick={() => {
-                    // Add functionality to view all certifications
-                  }}
-                >
-                  See All Certifications
-                </button>
-              }
+  
             </div>
-            {/* Badges section */}
-            <div className="border-t border-gray-300 py-4">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Badges</h2>
-              <div className="flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                {profileData.badges.slice(0, 4).map((badge, index) => (
-                  <div
-                    key={index}
-                    className="relative flex-shrink-0 mr-4"
-                    onClick={() => openFullscreenImage(badge.image)}
-                  >
-                    <img
-                      src={badge.image}
-                      alt={badge.title}
-                      className="w-48 h-32 object-cover rounded-lg cursor-pointer"
-                    />
-                    <p className="text-gray-700 mt-2">{badge.title}</p>
-                  </div>
-                ))}
-              </div>
-              {profileData.badges.length > 4 &&
-                <button
-                  className="mt-2 text-blue-600"
-                  onClick={() => {
-                    // Add functionality to view all badges
-                  }}
-                >
-                  See All Badges
-                </button>
-              }
-            </div>
+         
     
               </div>
         </div>
@@ -423,6 +430,25 @@ const ProfilePage = () => {
           </div>
         </div>
       )}
+      {fullscreenImagecert && (
+  <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75 z-50">
+    <div className="relative h-96 overflow-hidden">
+      <img
+        src={fullscreenImagecert}
+        alt="Fullscreen"
+        className="object-contain w-full"
+        onClick={closeFullscreenImagecert}
+      />
+      <button
+        className="absolute top-4 right-4 text-white text-xl"
+        onClick={closeFullscreenImagecert}
+      >
+        &times;
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

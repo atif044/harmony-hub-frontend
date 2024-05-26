@@ -28,9 +28,7 @@ function EventCard({ name, location, organizer, duration, attendees, bannerImage
           Total Attendees: {attendees}
         </p>
         <div className="flex justify-between">
-          <button className="bg-transparent hover:bg-transparent text-gray-700 font-bold py-2 px-4 rounded" onClick={() => toggleHeart()}>
-            <FontAwesomeIcon icon={faHeart} className="w-6 h-6 heart" />
-          </button>
+        
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
             onClick={() => {

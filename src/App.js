@@ -62,6 +62,8 @@ import ForgotPassword from './Components/Forgot Password/ForgotPassword.jsx';
 import ResetPasswordForm from './Components/Forgot Password/ResetPasswordForm.jsx';
 import HomePage from './Components/Home/homeshowcasepage.jsx';
 import NotFound from './Components/404/Error404.jsx';
+import UniversityEvents from './Components/Volunteer/University Events/UniversityAllEvents.jsx';
+import Footer from './Components/Home/Footer.jsx';
 function App() {
   return (
     <>
@@ -70,6 +72,9 @@ function App() {
     <div>
     <Navbar/>
     <Toaster />
+    <div className='ml-10 mr-10'>
+
+   
     <Routes>
     {/* ====================================ORGANIZATION */}
     <Route exact path="/loginorganization" element={<OrganizationLoginSignupProtectedRoute/>}>
@@ -99,8 +104,8 @@ function App() {
     <Route exact path="/markAttendance" element={<OrganizationProtected/>}>
     <Route exact path="/markAttendance" element={<AllStartedEvents/>}/>
     </Route>
-    <Route exact path="markAttendance/:id" element={<OrganizationProtected/>}>
-    <Route exact path="markAttendance/:id" element={<AttendancePage/>}/>
+    <Route exact path="/markAttendance/:id" element={<OrganizationProtected/>}>
+    <Route exact path="/markAttendance/:id" element={<AttendancePage/>}/>
     </Route>
     <Route exact path="/editAttendance/:id" element={<OrganizationProtected/>}>
     <Route exact path="/editAttendance/:id" element={<EditAttendanceAll/>}/>
@@ -177,6 +182,9 @@ function App() {
     <Route exact path='/myprofile' element={<VolunteerProtected/>}>
     <Route exact path='/myprofile' element={<ProfilePage/>}/>
     </Route>
+    <Route exact path='/uniEvents' element={<VolunteerProtected/>}>
+    <Route exact path='/uniEvents' element={<UniversityEvents/>}/>
+    </Route>
     {/* ===========================================Admin */}
     <Route exact path="/adminlogin" element={<Login/>}/>
     <Route exact path="/adminsignup" element={<Signup/>}/>
@@ -198,6 +206,7 @@ function App() {
      <Route exact path='/*' element={<NotFound/>}/>
     </Routes>
     </div>
+    </div>      
     </HarmonyState>
     </Router>
     

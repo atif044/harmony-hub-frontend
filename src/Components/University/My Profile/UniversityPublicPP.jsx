@@ -331,7 +331,6 @@ const UniversityPublicProfilePage = () => {
                                         <span className="font-bold">Name:</span> <p  className="text-blue-600 hover:underline">{activity.EventName}</p><br />
                                         <span className="font-bold">Date:</span>
                                         {new Date(activity.eventStartDate).toDateString()}{" - "} { new Date(activity.eventEndDate).toDateString()}<br />
-                                        <span className="font-bold">Description:</span> {activity.EventDescription}
                                     </p>
                                 </div>
                             ))}

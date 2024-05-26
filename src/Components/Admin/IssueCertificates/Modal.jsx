@@ -24,7 +24,7 @@ const Modal = ({makePdf,id,eventId,SetDetails,uploadToCloudinary, isOpen, onClos
       await changeTheRequest()
       if(response.length===0){
         let upload=await uploadToCloudinary(image);
-          let response=await handleCertification(value.EventName,value.email,upload.body,value.EventId);
+        let response=await handleCertification(value.EventName,value.email,upload.body,value.EventId);
               }
               else{
                 toast.error("You have already got your certificate")

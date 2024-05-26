@@ -1,6 +1,6 @@
 import React,{useContext, useState} from 'react'
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import context from '../../../Context/HarmonyContext';
 const Login = ({darkMode}) => {
     const {loginAdmin,setadminToken}=useContext(context);
@@ -8,7 +8,7 @@ const Login = ({darkMode}) => {
       const onChange=(e)=>{
         setCredentials({...credentials,[e.target.name]:e.target.value});
     }
-
+    const navigate=useNavigate()
     const onSubmit=async(e)=>{
         try {
             e.preventDefault();
@@ -16,6 +16,8 @@ const Login = ({darkMode}) => {
             if(response.data.status==="success"){
                 toast.success(response.data.message);
                 setadminToken(response.data.body)
+                navigate("/unapprovedOrganization")
+                
             }
         } catch (error) {
             console.log(error)
@@ -30,16 +32,16 @@ const Login = ({darkMode}) => {
         <form onSubmit={onSubmit}>
             <div className="mt-4">
                 <label className={`block font-semibold ${darkMode==="dark"?"text-white":"text-black"}`} htmlFor="email">Email</label>
-                <input className={`w-full shadow-inner  bg-gray-100 rounded-lg placeholder-black text-2xl pl-2 border-none block mt-1 ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}`} id="email" onChange={onChange} value={credentials.email} type="email" name="email"  required autoComplete='off'/>
+                <input className={`w-full shadow-inner  md:w-6/12 bg-gray-100 rounded-lg placeholder-black text-2xl pl-2 border-none block mt-1 ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}`} id="email" onChange={onChange} value={credentials.email} type="email" name="email"  required autoComplete='off'/>
             </div>
 
             <div className="mt-4">
                 <label className={`${darkMode==="dark"?"text-white":"text-black"} block font-semibold`} htmlFor="password">Password</label>
-                <input className={`w-full shadow-inner ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}  rounded-lg placeholder-black text-2xl pl-2  border-none block mt-1`} onChange={onChange} value={credentials.password} id="password" type="password" name="password"  required autoComplete="off"/>
+                <input className={`w-full shadow-inner  md:w-6/12 ${darkMode==="dark"?"bg-zinc-600 text-white":"bg-gray-100"}  rounded-lg placeholder-black text-2xl pl-2  border-none block mt-1`} onChange={onChange} value={credentials.password} id="password" type="password" name="password"  required autoComplete="off"/>
             </div>
 
-            <div className="flex items-center justify-between mt-8">
-                <button type="submit" className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-2 md:text-lg md:px-10">Login</button>
+            <div className="flex items-center  mt-8">
+                <button type="submit" className="flex items-center mr-20 justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-2 md:text-lg md:px-10">Login</button>
                 <Link className={`${darkMode==="dark"?"text-white":"text-black"} font-semibold`} to="/adminsignup">
                     Dont Have an Account?
                 </Link>

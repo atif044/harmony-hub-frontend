@@ -195,7 +195,7 @@ const PublicProfile = () => {
     return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
   const {id}=useParams()
-  const {getMyContractDetails,userPublicProfile}=useContext(context);
+  const {getMyContractDetails,userPublicProfile,getRatingPublic}=useContext(context);
   const [details,setDetails]=useState('');
   const [certifications,setCertifications]=useState([])
   const [university,setuniversity]=useState('')
@@ -218,10 +218,21 @@ const PublicProfile = () => {
   const [fetch,setfetch]=useState(false)
   useEffect(() => {
       fetchMyProifleDetails()
+      Rating()
   }, [fetch])  
-  const [bio,setbio]=useState('');
-  const [enableEditBio,setEnableEditBio]=useState(false);
-
+  const [rating,setRating]=useState(5);
+  const Rating=async()=>{
+      try {
+        
+        let response=await getRatingPublic(id);
+        console.log(response)
+        if(response.data.status==="success"){
+          setRating(response.data.rating)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+  }
 
   return (
     
@@ -270,6 +281,12 @@ const PublicProfile = () => {
         <p>Certifications</p>
       </div>
     </div>
+    <div className={`w-full sm:w-1/2 md:w-1/4 mb-4`}>
+      <div className="flex flex-col items-center justify-center bg-gray-200 rounded-md p-2">
+        <p className="font-bold text-lg">{rating}</p>
+        <p>Rating</p>
+      </div>
+    </div>
   
   </div>
 </div>
@@ -300,7 +317,7 @@ const PublicProfile = () => {
                 <div key={index} className="mb-2">
                   <p className="text-gray-700">
                     <span className="font-bold">Name:</span> {activity.EventName}, <span className="font-bold">Date:</span> {new Date(activity.eventEndDate).toDateString()}<br />
-                    <span className="font-bold">Description:</span> {activity.EventDescription}
+                    {/* <span className="font-bold">Description:</span> {activity.EventDescription} */}
                   </p>
                 </div>
               ))}
@@ -317,7 +334,7 @@ const PublicProfile = () => {
             <div className="border-t border-gray-300 py-4 ">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Certifications</h2>
               <div className="flex overflow-y-hidden overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                {certifications?.slice(0, 3).map((certification, index) => (
+                {certifications?.map((certification, index) => (
                   <div
                     key={index}
                     className="relative flex-shrink-0 mr-4"
@@ -332,48 +349,10 @@ const PublicProfile = () => {
                   </div>
                 ))}
               </div>
-              {certifications?.length > 3 &&
-                <button
-                  className="mt-2  text-blue-600"
-                  onClick={() => {
-                    // Add functionality to view all certifications
-                  }}
-                >
-                  See All Certifications
-                </button>
-              }
+         
             </div>
             {/* Badges section */}
-            <div className="border-t border-gray-300 py-4">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Badges</h2>
-              <div className="flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                {profileData.badges.slice(0, 4).map((badge, index) => (
-                  <div
-                    key={index}
-                    className="relative flex-shrink-0 mr-4"
-                    onClick={() => openFullscreenImage(badge.image)}
-                  >
-                    <img
-                      src={badge.image}
-                      alt={badge.title}
-                      className="w-48 h-32 object-cover rounded-lg cursor-pointer"
-                    />
-                    <p className="text-gray-700 mt-2">{badge.title}</p>
-                  </div>
-                ))}
-              </div>
-              {profileData.badges.length > 4 &&
-                <button
-                  className="mt-2 text-blue-600"
-                  onClick={() => {
-                    // Add functionality to view all badges
-                  }}
-                >
-                  See All Badges
-                </button>
-              }
-            </div>
-    
+           
               </div>
         </div>
        

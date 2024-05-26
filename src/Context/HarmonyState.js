@@ -441,6 +441,14 @@ const addProfilePic=async(img)=>{
     return error
   }
 }
+const deleteEvent=async(id)=>{
+  try {
+    let response=api.delete(`/organization/deleteEvent/${id}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
 //===========================================UNIVERSITY
 const signupUniversity=async(body)=>{
   try {
@@ -496,6 +504,15 @@ const getDetail=async(id)=>{
 const approveEvent=async(id)=>{
   try {
     let response=api.post(`/university/approveEvent/${id}`);
+    return response;
+    
+  } catch (error) {
+    return error
+  }
+}
+const rejectEvent=async(id)=>{
+  try {
+    let response=api.post(`/university/rejectEvent/${id}`);
     return response;
     
   } catch (error) {
@@ -631,7 +648,7 @@ const volunteerSignup=async(data,pp,nicb,nicf,stback)=>{
     formData.append("photos",pp);
     formData.append("photos",nicf);
     formData.append("photos",nicb);
-    formData.append("photos",stback);
+    // (stback!=""&&stback!=null)&&formData.append("photos",stback);
     formData.append("enrollmentNo",enrollmentNo)
     const config = {
       headers: {
@@ -781,6 +798,40 @@ const reviewTheEvent=async(eventId,rating)=>{
     let response=api.post(`/user/reviewEvent/${eventId}`,{
       rating:rating
     })
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const getRating=async()=>{
+  try {
+    let response=api.get(`/user/getRating`);
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const getRatingPublic=async(id)=>{
+  try {
+    let response=api.get(`/user/getRating/${id}`);
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+const addThePhoto=async(pic)=>{
+  const form= new FormData();
+  form.append("image",pic);
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  try {
+    let response=api.post('/user/addProfilePic',form,config);
     return response;
     
   } catch (error) {
@@ -950,6 +1001,24 @@ let eventsByLocation=async(location)=>{
     return error
   }
 }
+let getAllUniEvents=async()=>{
+  try {
+    let response=api.get('/user/allUniEvents');
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
+let withdrawEvent=async(id)=>{
+  try {
+    let response=api.get(`/user/withdraw/${id}`);
+    return response;
+    
+  } catch (error) {
+    return error;
+  }
+}
 
 //  ======================FORGOT PASSWORD
 const sendResetLink=async({email,type})=>{
@@ -1097,7 +1166,14 @@ const countForVolunteersAndOrg=async()=>{
           sendResetLink,
           checkValidityOfToken,
           updatePassword,
-          countForVolunteersAndOrg
+          countForVolunteersAndOrg,
+          deleteEvent,
+          getRating,
+          getRatingPublic,
+          addThePhoto,
+          rejectEvent,
+          getAllUniEvents,
+          withdrawEvent
         }}>
       {props.children}
     </context.Provider>

@@ -1,6 +1,6 @@
 import React, { useContext, useState,useEffect } from "react";
 import context from "../../../Context/HarmonyContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import Modal from "./Modal";
 const OtherEvent = ({ eventName, date }) => {
@@ -21,49 +21,14 @@ const OtherEvent = ({ eventName, date }) => {
   );
 };
 
-const Sidebar = () => {
-  // Sample data for other events
-  const otherEvents = [
-    { eventName: "Event 1", date: "March 10, 2024" },
-    { eventName: "Event 2", date: "March 15, 2024" },
-    { eventName: "Event 3", date: "March 20, 2024" },
-    { eventName: "Event 4", date: "March 25, 2024" },
-  ];
 
-  // Sample data for recent events
-  const recentEvents = [
-    { eventName: "Recent Event 1", date: "March 5, 2024" },
-    { eventName: "Recent Event 2", date: "March 8, 2024" },
-  ];
-
-  return (
-    <div className="bg-gray-200 p-4 rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Other Events</h2>
-      {/* Display other events */}
-      {otherEvents.map((event, index) => (
-        <OtherEvent key={index} eventName={event.eventName} date={event.date} />
-      ))}
-      {/* Recent Events */}
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Recent Events</h2>
-        {recentEvents.map((event, index) => (
-          <OtherEvent key={index} eventName={event.eventName} date={event.date} />
-        ))}
-      </div>
-      {/* Advertisement */}
-      <div className="mt-8 text-center">
-        <p className="text-gray-600">Advertisement</p>
-        {/* Add your advertisement here */}
-      </div>
-    </div>
-  );
-};
 const MyDetailedEventPage = () => {
   const {id}=useParams()
   // State to track the number of attendees
   const [attendeesApplied, setAttendeesApplied] = useState(50);
+  const navigate=useNavigate()
   const attendeesRequired = 100;
-  const {detailedEventForVolunteer,joinEvent,reviewTheEvent,myAttendance,requestCertificate,getMyContractDetails,checkIfAlreadyRequested,checkCertificteExistOrNot}=useContext(context);
+  const {detailedEventForVolunteer,withdrawEvent,joinEvent,reviewTheEvent,myAttendance,requestCertificate,getMyContractDetails,checkIfAlreadyRequested,checkCertificteExistOrNot}=useContext(context);
   const [event,setEvent]=useState();
   const [requested,setRequested]=useState(false);
   const [myEventAttendance,setMyAttendance]=useState('');
@@ -110,10 +75,11 @@ const MyDetailedEventPage = () => {
         console.log(error)
       }
   }
-  let clickToJoin=async()=>{
+  let clickToWithdraw=async()=>{
     try {
-  let response=await joinEvent(event?._id);
+  let response=await withdrawEvent(id);
     if(response.data.status==="success"){
+      navigate('/myappliedevents')
       return toast.success(response.data.message);
     }
     } catch (error) {
@@ -345,7 +311,7 @@ const MyDetailedEventPage = () => {
 
           {event?.eventStatus==="upcoming"&&
           <div className="flex justify-center mt-8">
-            <button disabled onClick={clickToJoin} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg">
+            <button  onClick={clickToWithdraw} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg">
               Withdraw
             </button>
           </div>
@@ -364,10 +330,7 @@ const MyDetailedEventPage = () => {
         </div>
 
        {/* Sidebar */}
-<div className="lg:w-1/4 lg:pl-0 mt-8 lg:mt-0"> {/* Adjust the padding value here */}
-  <Sidebar />
 
-        </div>
       </div>
     </div>
   );
