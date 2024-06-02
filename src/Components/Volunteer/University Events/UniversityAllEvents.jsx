@@ -31,14 +31,16 @@ const UniversityEvents = () => {
     <div className='container mx-auto mt-5'>
     <h1 className="text-3xl font-bold mb-5">University Events</h1>
     {
-        UniversityEvents.length===0 && <h1>
+        events.length===0 && <h1>
             There is no event your university is collaborating with
         </h1>
     }
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-{events.length>0 && events.map((event, index) => (
+{
+    events.length>0 && events.map((event, index) => (
   <EventCard key={index} event={event} />
-))}
+))
+}
 </div>
 </div>}
 </>
